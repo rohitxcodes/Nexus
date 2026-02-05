@@ -8,7 +8,6 @@ function requireAuth(req, res, next) {
     req.user = { userId: decoded.userId };
 
     next();
-    console.log("decoded:", decoded);
   } catch (err) {
     return res.status(401).send("Invalid token");
   }

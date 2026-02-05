@@ -16,7 +16,7 @@ async function authenticateUser(email, password) {
   if (!user) return "invalid credentails !";
   const verify = await bcrypt.compare(password, user.passwordHash);
   if (!verify) return "invalid credentails !";
-  console.log(user);
+
   return user;
 }
 function generateAuthToken(user) {

@@ -39,12 +39,8 @@ async function getLevelByNumber(req, res, next) {
     problem,
   });
 }
-async function completeLevel(req, res, next) {
-  return res.send("ok");
-}
 
 module.exports = {
   getAllLevels,
   getLevelByNumber,
-  completeLevel,
 };

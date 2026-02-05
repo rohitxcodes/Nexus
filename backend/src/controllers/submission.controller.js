@@ -32,7 +32,6 @@ async function createSubmission(req, res) {
       return res.status(404).json({ message: "Problem not found" });
     }
 
-    console.log("Subbmission Error:", err);
     return res.status(500).json({ message: "Submission failed" });
   }
 }
@@ -40,7 +39,7 @@ async function createSubmission(req, res) {
 async function getSubmissionResult(req, res) {
   try {
     const submissionId = req.params.submissionId;
-    console.log(submissionId);
+
     const userId = req.user.userId;
     const submission = await Submission.findOne({
       _id: submissionId,

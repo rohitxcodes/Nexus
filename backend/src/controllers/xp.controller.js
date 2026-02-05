@@ -5,7 +5,6 @@ async function getXPHistory(req, res, next) {
     const history = await xpService.fetchXPHistory(userId);
     return res.status(200).json(history);
   } catch (err) {
-    console.log(err);
     return res.status(500).json({ Error: "xp transction failed" });
   }
 }

@@ -1,21 +1,17 @@
 const express = require("express");
 const app = express();
 const authRouter = require("./routes/auth.routes");
-const userRouter = require("./routes/user.routes");
 const levelRouter = require("./routes/level.routes");
-const problemRouter = require("./routes/problem.routes");
 const submissionRouter = require("./routes/submission.routes");
 const xpRouter = require("./routes/xp.routes");
-const matchRouter = require("./routes/match.routes");
 const cookieParser = require("cookie-parser");
 app.use(cookieParser());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use("/api/auth", authRouter);
-app.use("/api/users", userRouter);
 app.use("/api/levels", levelRouter);
-app.use("/api/problems", problemRouter);
+
 app.use("/api/submissions", submissionRouter);
 app.use("/api/xp", xpRouter);
-app.use("/api/matches", matchRouter);
+
 module.exports = app;
