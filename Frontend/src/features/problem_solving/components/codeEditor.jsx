@@ -6,7 +6,6 @@ const boilerplate = {
 }`,
   python: `def twoSum(nums, target):
     pass`,
-  
 };
 
 export default function CodeEditor({ language, setCode }) {

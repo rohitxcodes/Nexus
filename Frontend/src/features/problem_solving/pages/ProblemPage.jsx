@@ -1,18 +1,15 @@
 import { useState } from "react";
-import { problem } from "../data/problem";
-
-import ProblemDescription from "../comp/ProblemDescription";
-import CodeEditor from "../comp/CodeEditor";
-import OutputPanel from "../comp/OutputPanel";
-
+import { problem } from "../../problem_solving/data/problem";
+import ProblemDescription from "../components/ProblemDescription";
+import CodeEditor from "../components/codeEditor";
+import OutputPanel from "../components/OutputPanel";
 
 export default function ProblemPage() {
-  
   const style = {
-    fontStyle:{
-      fontFamily:"arial",
-    }
-  }
+    fontStyle: {
+      fontFamily: "arial",
+    },
+  };
   const [language, setLanguage] = useState("javascript");
   const [code, setCode] = useState("");
   const [status, setStatus] = useState("Idle");
@@ -28,7 +25,6 @@ export default function ProblemPage() {
 
   return (
     <div className="h-screen grid grid-cols-2 w-screen" style={style.fontStyle}>
-      
       {/* Left */}
       <div className="border-r border-gray-700">
         <ProblemDescription problem={problem} />
@@ -45,17 +41,11 @@ export default function ProblemPage() {
             <option value="python">Python</option>
           </select>
 
-          <button
-            onClick={runCode}
-            className="bg-green-600 px-4 py-1 rounded"
-          >
+          <button onClick={runCode} className="bg-green-600 px-4 py-1 rounded">
             Run
           </button>
 
-          <button
-            onClick={runCode}
-            className="bg-blue-600 px-4 py-1 rounded"
-          >
+          <button onClick={runCode} className="bg-blue-600 px-4 py-1 rounded">
             Submit
           </button>
         </div>

@@ -1,45 +1,25 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
-import "./index.css"
-import { FaArrowCircleRight } from "react-icons/fa";
-import Body from './components/Body'
-import Nav from "./components/Nav"
-import Train from './components/Train'
+import { useState } from "react";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import Home from './components/Home'
-import Play from './components/Play'
-import Game from './components/Game'
-
+import "./styles/App.css";
+import "./styles/index.css";
+import Train from "./pages/Train/Train";
+import Home from "./pages/Home/Home";
+import Play from "./pages/Play/Play";
+import Game from "./pages/Game/Game";
+import Register from "./pages/auth/Register";
+import Login from "./pages/auth/Login";
 
 function App() {
-  const [count, setCount] = useState(0)
   const router = createBrowserRouter([
+    { path: "/", element: <Home /> },
+    { path: "/train", element: <Train /> },
+    { path: "/train/play", element: <Play /> },
+    { path: "/train/play/game", element: <Game /> },
+    { path: "/register", element: <Register /> },
+    { path: "/login", element: <Login /> },
+  ]);
 
-    {
-      path: "/train",
-      element: <Train />
-    },
-    {
-      path:"/train/play/game",
-      element:<Game/>
-    },
-    {
-      path: "/",
-      element: <Home/>
-    },
-    {
-      path:"/train/play",
-      element:<Play/>
-    }
-  ])
-
-  return (<>
-
-    <RouterProvider router={router} />
-  </>
-  )
+  return <RouterProvider router={router} />;
 }
+
 export default App;
-""
