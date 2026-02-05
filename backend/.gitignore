@@ -1,0 +1,27 @@
+# dependencies
+node_modules/
+
+# env files (secrets)
+.env
+.env.*
+!.env.example
+
+# logs
+logs
+*.log
+npm-debug.log*
+
+# build outputs
+dist/
+build/
+
+# OS junk
+.DS_Store
+Thumbs.db
+
+# editor
+.vscode/
+.idea/
+
+# misc
+coverage/
