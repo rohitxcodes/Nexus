@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
-
+import { createSubmission, getSubmissionResult } from "../api/submissionAPI";
 import ProblemDescription from "../components/ProblemDescription";
 import CodeEditor from "../components/CodeEditor";
 import OutputPanel from "../components/OutputPanel";
@@ -27,8 +27,6 @@ export default function ProblemPage() {
 
         // backend returns { problem: {...} }
         setProblem(data.problem);
-        console.log("RAW API RESPONSE:", data);
-        console.log("ACTUAL PROBLEM:", data.problem);
       } catch (err) {
         console.error("Failed to load problem:", err);
       }
@@ -37,13 +35,29 @@ export default function ProblemPage() {
     loadProblem();
   }, [levelNumber]);
 
-  const runCode = () => {
-    setStatus("Running...");
+  const runCode = async () => {
+    try {
+      setStatus("Submitting...");
+      setOutput("");
+      const { submissionId } = await createSubmission({
+        levelNumber: Number(levelNumber),
+        language,
+        code,
+      });
 
-    setTimeout(() => {
-      setStatus("Accepted");
-      setOutput("Output: [0,1]");
-    }, 800);
+      setStatus("Running on judge...");
+      const result = await getSubmissionResult(submissionId);
+      setStatus(result.status);
+      setOutput(
+        `Runtime: ${result.runtime || "-"}s | Memory: ${
+          result.memory || "-"
+        } KB`,
+      );
+    } catch (err) {
+      console.error(err);
+      setStatus("ERROR");
+      setOutput("Submission failed");
+    }
   };
 
   if (!problem) return <div className="p-6">Loading...</div>;
