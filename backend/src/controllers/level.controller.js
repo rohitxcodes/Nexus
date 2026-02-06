@@ -26,9 +26,7 @@ async function getLevelByNumber(req, res, next) {
   if (level.status === "LOCKED") {
     return res.status(403).json({ message: "Level is locked" });
   }
-  const problem = await Problem.findOne({ levelNumber }).select(
-    "title description difficulty tags constraints examples",
-  );
+  const problem = await Problem.findOne({ levelNumber });
   if (!problem) {
     return res.status(404).json({ message: "Problem not found" });
   }

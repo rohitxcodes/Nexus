@@ -1,34 +1,32 @@
 const mongoose = require("mongoose");
 
-const testCaseSchema = new mongoose.Schema(
-  {
-    input: String,
-    expectedOutput: String,
-    isHidden: {
-      type: Boolean,
-      default: false,
-    },
-  },
-  { _id: false },
-);
-
 const problemSchema = new mongoose.Schema(
   {
     title: {
       type: String,
       required: true,
     },
+
     description: {
       type: String,
       required: true,
     },
+
     difficulty: {
       type: String,
       enum: ["Easy", "Medium", "Hard"],
       required: true,
     },
+
     tags: [String],
+
     constraints: String,
+
+    levelNumber: {
+      type: Number,
+      required: true,
+      index: true,
+    },
     examples: [
       {
         input: String,
@@ -36,10 +34,21 @@ const problemSchema = new mongoose.Schema(
         explanation: String,
       },
     ],
-    testCases: [testCaseSchema],
-    levelNumber: {
-      type: Number,
-      required: true,
+    testCases: [
+      {
+        input: String,
+        expectedOutput: String,
+        isHidden: {
+          type: Boolean,
+          default: false,
+        },
+      },
+    ],
+    prototypes: {
+      javascript: { type: String, default: "" },
+      python: { type: String, default: "" },
+      java: { type: String, default: "" },
+      cpp: { type: String, default: "" },
     },
   },
   { timestamps: true },

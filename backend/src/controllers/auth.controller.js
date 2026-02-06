@@ -14,40 +14,38 @@ async function registerUser(req, res, next) {
 
 async function loginUser(req, res, next) {
   const { email, password } = req.body;
-  console.log("Login request received for email:", email);
-  
+
   try {
     const user = await authService.authenticateUser(email, password);
-    
+
     // Check if authentication failed (returns error string)
-    if (typeof user === 'string' && user.includes('invalid')) {
+    if (typeof user === "string" && user.includes("invalid")) {
       console.log("Authentication failed for email:", email);
-      return res.status(401).send('Invalid email or password');
+      return res.status(401).send("Invalid email or password");
     }
-    
+
     // Authentication successful - user is an object
     const token = authService.generateAuthToken(user);
-    console.log("Login successful for user:", user.username);
-    
+
     res.cookie("token", token, {
       httpOnly: true,
-      sameSite: 'lax',
-      secure: process.env.NODE_ENV === 'production',
-      maxAge: 7 * 24 * 60 * 60 * 1000 // 7 days
+      sameSite: "lax",
+      secure: process.env.NODE_ENV === "production",
+      maxAge: 7 * 24 * 60 * 60 * 1000,
     });
-    
+
     return res.send({
       success: true,
       message: "Login successful",
       user: {
         id: user._id,
         username: user.username,
-        email: user.email
-      }
+        email: user.email,
+      },
     });
   } catch (err) {
     console.error("LOGIN ERROR:", err);
-    return res.status(500).send('An error occurred during login');
+    return res.status(500).send("An error occurred during login");
   }
 }
 async function getCurrentUser(req, res, next) {

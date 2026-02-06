@@ -8,244 +8,237 @@ console.log(MONGO_URI);
 
 const problems = [
   {
+    title: "Two Sum",
+    description: "Return indices of two numbers that add to target.",
+    difficulty: "Easy",
+    tags: ["Array", "Hash Table"],
+    constraints: "2 <= nums.length <= 10^4",
     levelNumber: 1,
-    title: "Find Pair With Given Sum",
-    difficulty: "Easy",
-    tags: ["array", "hashing"],
-    description:
-      "Given an array of integers and a target value, determine whether there exists a pair of numbers in the array whose sum equals the target.",
-    constraints: "2 ≤ n ≤ 10^4, -10^9 ≤ arr[i] ≤ 10^9",
     examples: [
-      {
-        input: "arr = [2, 7, 11, 15], target = 9",
-        output: "true",
-        explanation: "2 + 7 = 9",
-      },
+      { input: "[2,7,11,15], 9", output: "[0,1]", explanation: "2+7=9" },
     ],
     testCases: [
-      { input: "4\n2 7 11 15\n9", expectedOutput: "true", isHidden: false },
-      { input: "3\n3 2 4\n6", expectedOutput: "true", isHidden: true },
+      { input: "2 7 11 15\n9", expectedOutput: "[0,1]", isHidden: false },
     ],
+    prototypes: {
+      javascript: "function twoSum(nums,target){\n\n}",
+      python: "def twoSum(nums,target):\n    pass",
+      java: "public int[] twoSum(int[] nums,int target){\n\n}",
+      cpp: "vector<int> twoSum(vector<int>& nums,int target){\n\n}",
+    },
   },
 
   {
+    title: "Palindrome Number",
+    description: "Check if integer is palindrome.",
+    difficulty: "Easy",
+    tags: ["Math"],
+    constraints: "-2^31 <= x <= 2^31-1",
     levelNumber: 2,
-    title: "Check Palindrome Number",
-    difficulty: "Easy",
-    tags: ["math"],
-    description: "Given an integer x, determine whether it is a palindrome.",
-    constraints: "-2^31 ≤ x ≤ 2^31 - 1",
     examples: [
-      {
-        input: "x = 121",
-        output: "true",
-        explanation: "121 reads the same backward",
-      },
+      { input: "121", output: "true", explanation: "reads same both sides" },
     ],
-    testCases: [
-      { input: "121", expectedOutput: "true", isHidden: false },
-      { input: "-121", expectedOutput: "false", isHidden: true },
-    ],
+    testCases: [{ input: "121", expectedOutput: "true", isHidden: false }],
+    prototypes: {
+      javascript: "function isPalindrome(x){\n\n}",
+      python: "def isPalindrome(x):\n    pass",
+      java: "public boolean isPalindrome(int x){\n\n}",
+      cpp: "bool isPalindrome(int x){\n\n}",
+    },
   },
 
   {
-    levelNumber: 3,
     title: "Longest Common Prefix",
+    description: "Find longest common prefix among strings.",
+    difficulty: "Easy",
+    tags: ["String"],
+    constraints: "1 <= n <= 200",
+    levelNumber: 3,
+    examples: [{ input: "flower flow flight", output: "fl", explanation: "" }],
+    testCases: [
+      { input: "flower flow flight", expectedOutput: "fl", isHidden: false },
+    ],
+    prototypes: {
+      javascript: "function longestCommonPrefix(strs){\n\n}",
+      python: "def longestCommonPrefix(strs):\n    pass",
+      java: "public String longestCommonPrefix(String[] strs){\n\n}",
+      cpp: "string longestCommonPrefix(vector<string>& strs){\n\n}",
+    },
+  },
+
+  {
+    title: "Valid Parentheses",
+    description: "Validate bracket pairs.",
+    difficulty: "Easy",
+    tags: ["Stack"],
+    constraints: "1 <= s.length <= 10^4",
+    levelNumber: 4,
+    examples: [{ input: "()[]{}", output: "true", explanation: "" }],
+    testCases: [{ input: "()[]{}", expectedOutput: "true", isHidden: false }],
+    prototypes: {
+      javascript: "function isValid(s){\n\n}",
+      python: "def isValid(s):\n    pass",
+      java: "public boolean isValid(String s){\n\n}",
+      cpp: "bool isValid(string s){\n\n}",
+    },
+  },
+
+  {
+    title: "Add Two Numbers",
+    description: "Add two reversed linked lists.",
     difficulty: "Medium",
-    tags: ["string"],
-    description:
-      "Given an array of strings, find the longest common prefix string among them.",
-    constraints: "1 ≤ strs.length ≤ 200, 0 ≤ strs[i].length ≤ 200",
+    tags: ["Linked List"],
+    constraints: "1 <= nodes <= 100",
+    levelNumber: 5,
     examples: [
-      {
-        input: '["flower","flow","flight"]',
-        output: '"fl"',
-        explanation: "All strings share the prefix 'fl'",
-      },
+      { input: "[2,4,3] + [5,6,4]", output: "[7,0,8]", explanation: "" },
+    ],
+    testCases: [{ input: "243\n564", expectedOutput: "708", isHidden: false }],
+    prototypes: {
+      javascript: "function addTwoNumbers(l1,l2){\n\n}",
+      python: "def addTwoNumbers(l1,l2):\n    pass",
+      java: "public ListNode addTwoNumbers(ListNode l1,ListNode l2){\n\n}",
+      cpp: "ListNode* addTwoNumbers(ListNode* l1,ListNode* l2){\n\n}",
+    },
+  },
+
+  {
+    title: "Longest Substring Without Repeating Characters",
+    description: "Return length of longest substring without duplicates.",
+    difficulty: "Medium",
+    tags: ["Sliding Window"],
+    constraints: "0 <= n <= 50000",
+    levelNumber: 6,
+    examples: [{ input: "abcabcbb", output: "3", explanation: "" }],
+    testCases: [{ input: "abcabcbb", expectedOutput: "3", isHidden: false }],
+    prototypes: {
+      javascript: "function lengthOfLongestSubstring(s){\n\n}",
+      python: "def lengthOfLongestSubstring(s):\n    pass",
+      java: "public int lengthOfLongestSubstring(String s){\n\n}",
+      cpp: "int lengthOfLongestSubstring(string s){\n\n}",
+    },
+  },
+
+  {
+    title: "Longest Palindromic Substring",
+    description: "Return longest palindromic substring.",
+    difficulty: "Medium",
+    tags: ["DP", "String"],
+    constraints: "1 <= n <= 1000",
+    levelNumber: 7,
+    examples: [{ input: "babad", output: "bab", explanation: "" }],
+    testCases: [{ input: "babad", expectedOutput: "bab", isHidden: false }],
+    prototypes: {
+      javascript: "function longestPalindrome(s){\n\n}",
+      python: "def longestPalindrome(s):\n    pass",
+      java: "public String longestPalindrome(String s){\n\n}",
+      cpp: "string longestPalindrome(string s){\n\n}",
+    },
+  },
+
+  {
+    title: "Zigzag Conversion",
+    description: "Convert string into zigzag pattern.",
+    difficulty: "Medium",
+    tags: ["String"],
+    constraints: "1 <= n <= 1000",
+    levelNumber: 8,
+    examples: [
+      { input: "PAYPALISHIRING, 3", output: "PAHNAPLSIIGYIR", explanation: "" },
     ],
     testCases: [
       {
-        input: "3\nflower\nflow\nflight",
-        expectedOutput: "fl",
+        input: "PAYPALISHIRING\n3",
+        expectedOutput: "PAHNAPLSIIGYIR",
         isHidden: false,
       },
     ],
+    prototypes: {
+      javascript: "function convert(s,numRows){\n\n}",
+      python: "def convert(s,numRows):\n    pass",
+      java: "public String convert(String s,int numRows){\n\n}",
+      cpp: "string convert(string s,int numRows){\n\n}",
+    },
   },
 
   {
-    levelNumber: 4,
-    title: "Valid Parentheses",
-    difficulty: "Medium",
-    tags: ["stack"],
-    description:
-      "Given a string containing just the characters (), {}, and [], determine if the input string is valid.",
-    constraints: "1 ≤ s.length ≤ 10^4",
-    examples: [
-      {
-        input: '"()[]{}"',
-        output: "true",
-        explanation: "All brackets are properly closed",
-      },
-    ],
-    testCases: [
-      { input: "()[]{}", expectedOutput: "true", isHidden: false },
-      { input: "(]", expectedOutput: "false", isHidden: true },
-    ],
-  },
-
-  {
-    levelNumber: 5,
-    title: "Add Two Numbers",
-    difficulty: "Medium",
-    tags: ["linked-list", "math"],
-    description:
-      "You are given two non-empty linked lists representing two non-negative integers stored in reverse order. Add the two numbers and return the sum as a linked list.",
-    constraints: "1 ≤ number of nodes ≤ 100, 0 ≤ node.val ≤ 9",
-    examples: [
-      {
-        input: "l1 = [2,4,3], l2 = [5,6,4]",
-        output: "[7,0,8]",
-        explanation: "342 + 465 = 807",
-      },
-    ],
-    testCases: [
-      { input: "2 4 3\n5 6 4", expectedOutput: "7 0 8", isHidden: false },
-    ],
-  },
-
-  {
-    levelNumber: 6,
-    title: "Regular Expression Matching",
-    difficulty: "Hard",
-    tags: ["dp", "string"],
-    description:
-      "Given an input string s and a pattern p, implement regular expression matching with support for '.' and '*'.",
-    constraints: "1 ≤ s.length, p.length ≤ 30",
-    examples: [
-      {
-        input: 's = "aa", p = "a*"',
-        output: "true",
-        explanation: "'*' allows repeating the preceding element",
-      },
-    ],
-    testCases: [{ input: "aa\na*", expectedOutput: "true", isHidden: false }],
-  },
-
-  {
-    levelNumber: 7,
     title: "Reverse Integer",
-    difficulty: "Easy",
-    tags: ["math"],
-    description:
-      "Given a signed 32-bit integer x, return x with its digits reversed.",
-    constraints: "-2^31 ≤ x ≤ 2^31 - 1",
-    examples: [
-      {
-        input: "x = 123",
-        output: "321",
-        explanation: "Digits reversed",
-      },
-    ],
-    testCases: [
-      { input: "123", expectedOutput: "321", isHidden: false },
-      { input: "1534236469", expectedOutput: "0", isHidden: true },
-    ],
-  },
-
-  {
-    levelNumber: 8,
-    title: "Merge Two Sorted Lists",
-    difficulty: "Easy",
-    tags: ["linked-list"],
-    description:
-      "Merge two sorted linked lists and return it as a sorted list.",
-    constraints: "0 ≤ number of nodes ≤ 50",
-    examples: [
-      {
-        input: "l1 = [1,2,4], l2 = [1,3,4]",
-        output: "[1,1,2,3,4,4]",
-        explanation: "Merged in sorted order",
-      },
-    ],
-    testCases: [
-      { input: "1 2 4\n1 3 4", expectedOutput: "1 1 2 3 4 4", isHidden: false },
-    ],
-  },
-
-  {
+    description: "Reverse digits of integer.",
+    difficulty: "Medium",
+    tags: ["Math"],
+    constraints: "32-bit signed integer range",
     levelNumber: 9,
-    title: "Search in Rotated Sorted Array",
-    difficulty: "Medium",
-    tags: ["binary-search"],
-    description:
-      "Given a rotated sorted array, search for a target value and return its index or -1.",
-    constraints: "1 ≤ nums.length ≤ 5000",
-    examples: [
-      {
-        input: "nums = [4,5,6,7,0,1,2], target = 0",
-        output: "4",
-        explanation: "Target found at index 4",
-      },
-    ],
-    testCases: [
-      { input: "7\n4 5 6 7 0 1 2\n0", expectedOutput: "4", isHidden: false },
-    ],
+    examples: [{ input: "123", output: "321", explanation: "" }],
+    testCases: [{ input: "123", expectedOutput: "321", isHidden: false }],
+    prototypes: {
+      javascript: "function reverse(x){\n\n}",
+      python: "def reverse(x):\n    pass",
+      java: "public int reverse(int x){\n\n}",
+      cpp: "int reverse(int x){\n\n}",
+    },
   },
 
   {
+    title: "String to Integer (atoi)",
+    description: "Implement atoi conversion.",
+    difficulty: "Medium",
+    tags: ["String"],
+    constraints: "0 <= length <= 200",
     levelNumber: 10,
-    title: "Container With Most Water",
-    difficulty: "Medium",
-    tags: ["two-pointers"],
-    description:
-      "Given n non-negative integers, find two lines that together with the x-axis form a container that holds the most water.",
-    constraints: "2 ≤ n ≤ 10^5",
+    examples: [{ input: "42", output: "42", explanation: "" }],
+    testCases: [{ input: "42", expectedOutput: "42", isHidden: false }],
+    prototypes: {
+      javascript: "function myAtoi(s){\n\n}",
+      python: "def myAtoi(s):\n    pass",
+      java: "public int myAtoi(String s){\n\n}",
+      cpp: "int myAtoi(string s){\n\n}",
+    },
+  },
+
+  {
+    title: "Regular Expression Matching",
+    description: "Regex matching with . and *.",
+    difficulty: "Hard",
+    tags: ["DP", "String"],
+    constraints: "1 <= length <= 20",
+    levelNumber: 11,
+    examples: [{ input: "aa, a*", output: "true", explanation: "" }],
+    testCases: [{ input: "aa\na*", expectedOutput: "true", isHidden: false }],
+    prototypes: {
+      javascript: "function isMatch(s,p){\n\n}",
+      python: "def isMatch(s,p):\n    pass",
+      java: "public boolean isMatch(String s,String p){\n\n}",
+      cpp: "bool isMatch(string s,string p){\n\n}",
+    },
+  },
+
+  {
+    title: "Merge k Sorted Lists",
+    description: "Merge k sorted linked lists.",
+    difficulty: "Hard",
+    tags: ["Heap", "Linked List"],
+    constraints: "0 <= k <= 10^4",
+    levelNumber: 12,
     examples: [
       {
-        input: "[1,8,6,2,5,4,8,3,7]",
-        output: "49",
-        explanation: "Max area formed between heights 8 and 7",
+        input: "[[1,4,5],[1,3,4],[2,6]]",
+        output: "[1,1,2,3,4,4,5,6]",
+        explanation: "",
       },
     ],
     testCases: [
-      { input: "9\n1 8 6 2 5 4 8 3 7", expectedOutput: "49", isHidden: false },
-    ],
-  },
-
-  {
-    levelNumber: 11,
-    title: "Longest Palindromic Substring",
-    difficulty: "Medium",
-    tags: ["string", "dp"],
-    description:
-      "Given a string s, return the longest palindromic substring in s.",
-    constraints: "1 ≤ s.length ≤ 1000",
-    examples: [
       {
-        input: "babad",
-        output: "bab",
-        explanation: "bab is a valid palindrome",
+        input: "1 4 5|1 3 4|2 6",
+        expectedOutput: "1 1 2 3 4 4 5 6",
+        isHidden: false,
       },
     ],
-    testCases: [{ input: "babad", expectedOutput: "bab", isHidden: false }],
-  },
-
-  {
-    levelNumber: 12,
-    title: "Median of Two Sorted Arrays",
-    difficulty: "Hard",
-    tags: ["binary-search"],
-    description:
-      "Given two sorted arrays nums1 and nums2, return the median of the two sorted arrays.",
-    constraints: "0 ≤ nums1.length + nums2.length ≤ 2000",
-    examples: [
-      {
-        input: "nums1 = [1,3], nums2 = [2]",
-        output: "2",
-        explanation: "Median is 2",
-      },
-    ],
-    testCases: [{ input: "1 3\n2", expectedOutput: "2", isHidden: false }],
+    prototypes: {
+      javascript: "function mergeKLists(lists){\n\n}",
+      python: "def mergeKLists(lists):\n    pass",
+      java: "public ListNode mergeKLists(ListNode[] lists){\n\n}",
+      cpp: "ListNode* mergeKLists(vector<ListNode*>& lists){\n\n}",
+    },
   },
 ];
 

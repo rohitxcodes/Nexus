@@ -9,6 +9,7 @@ import Game from "./pages/Game/Game";
 import Register from "./pages/auth/Register";
 import Login from "./pages/auth/Login";
 import Landing from "./pages/Landing/DemoLandingPage";
+import ProblemPage from "./features/problem_solving/pages/ProblemPage";
 
 function App() {
   const router = createBrowserRouter([
@@ -25,7 +26,7 @@ function App() {
     { path: "/train/play", element: <Level /> },
     { path: "/train/play/game", element: <Game /> },
     //dynamic levels
-    { path: "/levels/:levelId", element: <Game /> },
+    { path: "/levels/:levelNumber", element: <ProblemPage /> },
   ]);
 
   return <RouterProvider router={router} />;
