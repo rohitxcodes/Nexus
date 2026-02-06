@@ -49,15 +49,15 @@ const Home = () => {
                 <p className="body-text text-7xl">SMART LEARNING</p>
               </div>
               <div className="flex gap-50">
-                <Link to="/register">
+                <Link to="/train">
                   <div className="buttons flex items-center gap-10">
-                    <p className="text-center -tracking-tighter">Register</p>
+                    <p className="text-center -tracking-tighter">Train</p>
                     <FaArrowCircleRight size={40} />
                   </div>
                 </Link>
-                <Link to="/login">
+                <Link to="#">
                   <div className="buttons flex items-center gap-5 tracking-wider">
-                    <p className="text-center">Log In</p>
+                    <p className="text-center">Shop</p>
                     <FaArrowCircleRight size={40} />
                   </div>
                 </Link>

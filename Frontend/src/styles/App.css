@@ -1,42 +1,44 @@
-  @font-face {
+@font-face {
   font-family: "arcade";
   src: url("/ARCADECLASSIC.TTF") format("truetype");
   font-weight: normal;
-  font-style: normal;}
-body{
-  font-family: "arcade",sans-serif;
-
+  font-style: normal;
 }
-.body{
+body {
+  font-family: "arcade", sans-serif;
+}
+video {
+  justify-items: center;
+}
+.body {
   padding-top: 250px;
   display: flex;
   flex-direction: column;
-  justify-content: center; 
-  align-items: center;  
+  justify-content: center;
+  align-items: center;
   height: 60vh;
-  color: #412C2C;    
+  color: #412c2c;
 }
-.body-text{
+.body-text {
   font-weight: 1000;
   line-height: 1.6;
   letter-spacing: 18px;
 }
-.buttons{
+.buttons {
   border-radius: 57.5px;
   justify-content: center;
   align-items: center;
   height: 85px;
   width: 370px;
   font-size: 40px;
-  background: #D9D9D9;
+  background: #d9d9d9;
   color: black;
 }
-.about{
+.about {
   align-items: center;
-  background-color: #5AE5EA;
+  background-color: #5ae5ea;
   width: 80%;
 }
-
 
 .nav {
   position: fixed;
@@ -44,45 +46,39 @@ body{
   justify-content: space-between;
   background: linear-gradient(
     to bottom,
-    rgba(0, 0, 0, 0.9) 0%,   /* dark at top */
-    rgba(0, 0, 0, 0.4) 50%,  /* medium */
-    rgba(0, 0, 0, 0.0) 100%  /* fully clear at bottom */
+    rgba(0, 0, 0, 0.9) 0%,
+    /* dark at top */ rgba(0, 0, 0, 0.4) 50%,
+    /* medium */ rgba(0, 0, 0, 0) 100% /* fully clear at bottom */
   );
   height: 120px;
   width: 100%;
 }
 
 .logo {
-
   align-items: center;
   opacity: 100%;
   height: 100px;
   width: auto;
   overflow: hidden;
 }
-.nav-buttons{
-  
+.nav-buttons {
   font-size: xx-large;
 }
 .wrapper {
-
   padding-top: 250px;
   flex-direction: column;
   display: flex;
-  justify-content:center;  /* horizontal */
-  align-items: center;      /* vertical */
-
+  justify-content: center; /* horizontal */
+  align-items: center; /* vertical */
 }
-.wrapper1{
-
+.wrapper1 {
   /* padding-top: 650px; */
   flex-direction: column;
   display: flex;
-  justify-content:center;  /* horizontal */
-  align-items: center;      /* vertical */
-
+  justify-content: center; /* horizontal */
+  align-items: center; /* vertical */
 }
-.ele{
+.ele {
   justify-content: space-between;
 }
 .box {
@@ -92,47 +88,56 @@ body{
   justify-content: space-between;
   width: 80%;
   height: auto;
-  background:#5AE5EA;
+  background: #5ae5ea;
 }
-.mask{
+.mask {
   border-radius: 57.5px;
-  justify-content: space-between ;
+  justify-content: space-between;
   overflow: hidden;
   background-position: contain;
-  background-color: #412C2C;
+  background-color: #412c2c;
   height: 300px;
   width: 450px;
 }
 .intro-text {
-  display: flex;                /* REQUIRED */
-  justify-content: center;      /* center horizontally */
-  align-items: center;          /* center vertically */
+  display: flex; /* REQUIRED */
+  justify-content: center; /* center horizontally */
+  align-items: center; /* center vertically */
   width: 40%;
-
 }
-.contain{
+.contain {
   flex-direction: column;
   gap: 100px;
 }
-.use{
-    border-radius: 57.5px;
+.use {
+  border-radius: 57.5px;
 }
-.train{
+.train {
   gap: 50px;
   flex-direction: column;
-  color:#FDF5E6;
+  color: #fdf5e6;
   align-items: center;
   justify-content: center;
-  background: #2A638C;
+  background: #2a638c;
 }
-.overview{
+.overview {
   gap: 50px;
   flex-direction: column;
-  color:#FDF5E6;
+  color: #fdf5e6;
   justify-content: center;
   background: #082443;
 }
-.overview p{
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+.overview p {
+  font-family:
+    system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    Roboto,
+    Oxygen,
+    Ubuntu,
+    Cantarell,
+    "Open Sans",
+    "Helvetica Neue",
+    sans-serif;
 }
-
