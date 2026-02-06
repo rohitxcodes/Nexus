@@ -24,6 +24,8 @@ function App() {
     { path: "/train", element: <Train /> },
     { path: "/train/play", element: <Level /> },
     { path: "/train/play/game", element: <Game /> },
+    //dynamic levels
+    { path: "/levels/:levelId", element: <Game /> },
   ]);
 
   return <RouterProvider router={router} />;
