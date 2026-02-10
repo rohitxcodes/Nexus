@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { FaArrowCircleRight } from "react-icons/fa";
+import { setToken } from "../../utils/storage";
 
 const Login = () => {
   const [formData, setFormData] = useState({
@@ -38,6 +39,8 @@ const Login = () => {
       });
 
       if (response.ok) {
+        const data = await response.json();
+        setToken(data.token);
         setShowSuccess(true);
         setTimeout(() => {
           setShowSuccess(false);
