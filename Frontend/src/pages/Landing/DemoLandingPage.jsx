@@ -1,43 +1,66 @@
-import { User } from "lucide-react";
-import { Link } from "react-router-dom";
+import React from 'react'
+import Nav from '../../components/layout/Nav'
+import { FaArrowCircleRight } from "react-icons/fa";
+import { Link } from 'react-router-dom';
 
-export default function LandingPage() {
-  return (
-    <div className="min-h-screen bg-gray-100 flex flex-col">
-      {/* NAVBAR */}
-      <nav className="h-16 bg-white shadow flex items-center justify-between px-6">
-        {/* Left logo */}
-        <div className="w-10 h-10 rounded-full border-2 border-gray-400" />
+const Landing = () => {
+    return (
 
-        {/* Center links */}
-        <div className="flex gap-10 text-gray-700 font-medium">
-          <a href="#" className="hover:text-black">
-            Link 1
-          </a>
-          <a href="#" className="hover:text-black">
-            Link 2
-          </a>
-          <a href="#" className="hover:text-black">
-            Link 3
-          </a>
+        <div
+
+            style={{
+                position: "relative",
+                width: "100%",
+                height: "100vh",
+            }}
+        >
+            <video
+                autoPlay
+                loop
+                muted
+                playsInline
+                style={{
+                    position: "fixed",
+                    top: 0,
+                    left: 0,
+                    width: "100%",
+                    height: "100%",
+                    objectFit: "cover",
+                    zIndex: -1,
+                }}
+            >
+                <source src="lv_0_20260206155330.mp4" type="video/mp4" />
+            </video>
+            <div
+
+                style={{
+                    color: "white",
+                }}
+            >
+                <Nav />
+                <div className='py-10'>
+                    <div className='body pl-2 gap-20 '>
+
+                        <div className='flex gap-50'>
+                            <Link to="/login">
+                                <div className='buttons flex items-center gap-10 ml-240 mt-55'
+                                    style={{
+                                        transform: "scale(0.8)", // 🔽 decrease size
+                                        transformOrigin: "left center", // keeps position stable
+                                    }}>
+                                    <p className='text-center -tracking-tighter'>Get Started</p>
+                                    <FaArrowCircleRight size={40} />
+                                </div>
+                            </Link>
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+
         </div>
-
-        {/* Right profile */}
-        <User className="w-7 h-7 text-blue-500" />
-      </nav>
-
-      {/* HERO SECTION */}
-      <main className="flex-1 flex items-center justify-center">
-        <div className="flex items-center gap-16">
-          <h1 className="text-3xl font-semibold text-gray-800">Landing Page</h1>
-
-          <Link to="/register">
-            <button className="px-6 py-3 bg-white border rounded-xl shadow hover:bg-gray-200 transition font-medium">
-              Get started
-            </button>
-          </Link>
-        </div>
-      </main>
-    </div>
-  );
+    )
 }
+
+export default Landing
