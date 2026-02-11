@@ -18,11 +18,13 @@ export const createSubmission = async ({ levelNumber, language, code }) => {
 };
 
 export const getSubmissionResult = async (submissionId) => {
-  const res = await fetch(`${BASE}/${submissionId}`, {
+  const res = await fetch(`${API_BASE}/api/submissions/${submissionId}`, {
     credentials: "include",
   });
+
   if (!res.ok) {
     throw new Error("Result fetch failed");
   }
+
   return res.json();
 };
