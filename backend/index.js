@@ -6,7 +6,7 @@ app.get("/", (req, res) => {
   res.send("nexus");
 });
 connectToMongoDB();
-app.listen(process.env.PORT || 5000, () => {
+app.listen(process.env.PORT || 3000, () => {
   console.log(
     `Server Started at the Port http://localhost:${process.env.PORT}`,
   );
