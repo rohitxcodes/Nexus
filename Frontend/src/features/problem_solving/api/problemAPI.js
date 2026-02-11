@@ -1,5 +1,7 @@
+import { API_BASE } from "../../../utils/api";
+
 export const getProblem = async (level) => {
-  const url = `${import.meta.env.VITE_LEVEL_API_URL}/${level}`;
+  const url = `${API_BASE}/api/levels/${level}`;
 
   const res = await fetch(url, {
     method: "GET",

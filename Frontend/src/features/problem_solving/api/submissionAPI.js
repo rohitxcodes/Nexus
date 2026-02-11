@@ -1,7 +1,7 @@
-const BASE = "http://localhost:3000/api/submissions";
+import { API_BASE } from "../../../utils/api";
 
 export const createSubmission = async ({ levelNumber, language, code }) => {
-  const res = await fetch(BASE, {
+  const res = await fetch(`${API_BASE}/api/submissions`, {
     method: "POST",
     credentials: "include",
     headers: {
