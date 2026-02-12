@@ -1,6 +1,7 @@
 import React from "react";
 
 import { Link } from "react-router-dom";
+import { FaUserCircle } from "react-icons/fa";
 const Nav = () => {
   return (
     <>
@@ -23,6 +24,10 @@ const Nav = () => {
             </Link>
             <Link to="/train">
               <p style={{ cursor: "pointer" }}>Shop</p>
+            </Link>
+
+            <Link to="/profile" style={{ display: "flex", alignItems: "center" }}>
+              <FaUserCircle size={26} />
             </Link>
           </div>
         </div>
