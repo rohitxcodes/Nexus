@@ -79,6 +79,14 @@ async function persistSubmission(data) {
   const problem = await Problem.findOne({ levelNumber });
   if (!problem) throw new Error("PROBLEM_NOT_FOUND");
 
+  const difficultyRewardMap = {
+    Easy: 30,
+    Medium: 40,
+    Hard: 60,
+  };
+  const xpReward =
+    difficultyRewardMap[problem.difficulty] ?? level?.xpReward ?? 0;
+
   const submission = await Submission.create({
     userId,
     problemId: problem._id,
@@ -87,15 +95,8 @@ async function persistSubmission(data) {
     code,
     status: "PENDING",
   });
-  const testInput = problem.testCases[0].input;
-  const judgeToken = await submitCodeToJudge({
-    language,
-    code,
-    input: testInput,
-  });
-  const result = await fetchJudgeResult(judgeToken);
 
-  function normalizeStatus(judgeStatus) {
+  function normalizeVerdict(judgeStatusDescription) {
     const map = {
       Accepted: "ACCEPTED",
       "Wrong Answer": "WRONG_ANSWER",
@@ -104,14 +105,71 @@ async function persistSubmission(data) {
       "Time Limit Exceeded": "ERROR",
     };
 
-    return map[judgeStatus] || "ERROR";
+    return map[judgeStatusDescription] || "ERROR";
   }
-  submission.status = normalizeStatus(result.status);
-  submission.runtime = result.runtime || null;
-  submission.memory = result.memory || null;
+
+  function normalizeOutput(value) {
+    return String(value ?? "")
+      .replace(/\r\n/g, "\n")
+      .trim();
+  }
+
+  let finalVerdict = "ACCEPTED";
+  let runtimeMax = null;
+  let memoryMax = null;
+
+  const testCases = Array.isArray(problem.testCases) ? problem.testCases : [];
+  if (testCases.length === 0) {
+    finalVerdict = "ERROR";
+  } else {
+    for (const tc of testCases) {
+      const expectedRaw = tc?.expectedOutput ?? tc?.output;
+      if (expectedRaw == null) {
+        finalVerdict = "ERROR";
+        break;
+      }
+
+      const judgeToken = await submitCodeToJudge({
+        language,
+        code,
+        input: tc.input,
+      });
+      const result = await fetchJudgeResult(judgeToken);
+
+      const verdict = normalizeVerdict(result.status);
+      const runtimeNum = result.runtime != null ? Number(result.runtime) : NaN;
+      const memoryNum = result.memory != null ? Number(result.memory) : NaN;
+
+      if (!Number.isNaN(runtimeNum)) {
+        runtimeMax = runtimeMax == null ? runtimeNum : Math.max(runtimeMax, runtimeNum);
+      }
+      if (!Number.isNaN(memoryNum)) {
+        memoryMax = memoryMax == null ? memoryNum : Math.max(memoryMax, memoryNum);
+      }
+
+      if (verdict === "ERROR") {
+        finalVerdict = "ERROR";
+        break;
+      }
+
+      const actual = normalizeOutput(result.stdout);
+      const expected = normalizeOutput(expectedRaw);
+      if (actual !== expected) {
+        finalVerdict = "WRONG_ANSWER";
+        break;
+      }
+    }
+  }
+
+  submission.status = finalVerdict;
+  submission.runtime = runtimeMax == null ? null : String(runtimeMax);
+  submission.memory = memoryMax == null ? null : String(memoryMax);
   await submission.save();
 
-  if (result.status.toLowerCase() === "accepted") {
+  let xpEarned = 0;
+  let totalXP = undefined;
+
+  if (submission.status === "ACCEPTED") {
     const user = await User.findById(userId);
 
     const isFirstCompletion = !user.completedLevels.includes(levelNumber);
@@ -122,12 +180,19 @@ async function persistSubmission(data) {
         $set: { currentLevel: levelNumber + 1 },
       });
 
-      await xpService.recordXPTransaction(userId, levelNumber, level.xpReward);
+      await xpService.recordXPTransaction(userId, levelNumber, xpReward);
+      xpEarned = xpReward;
     }
+
   }
+
+  const updatedUser = await User.findById(userId).select("totalXP");
+  totalXP = updatedUser?.totalXP;
   return {
     submissionId: submission._id,
     verdict: submission.status,
+    xpEarned,
+    totalXP,
   };
 }
 
