@@ -1,4 +1,6 @@
 const authService = require("../services/auth.service");
+const User = require("../models/user.model");
+const Submission = require("../models/submission.model");
 
 async function registerUser(req, res, next) {
   try {
@@ -37,6 +39,7 @@ async function loginUser(req, res, next) {
     return res.send({
       success: true,
       message: "Login successful",
+      token,
       user: {
         id: user._id,
         username: user.username,
@@ -51,6 +54,22 @@ async function loginUser(req, res, next) {
 async function getCurrentUser(req, res, next) {
   return res.send(req.user.userId);
 }
+
+async function getMe(req, res, next) {
+  try {
+    const user = await User.findById(req.user.userId).select(
+      "username email totalXP currentLevel completedLevels",
+    );
+    if (!user) return res.status(404).json({ message: "User not found" });
+    const submissionsCount = await Submission.countDocuments({
+      userId: req.user.userId,
+    });
+
+    return res.status(200).json({ user, submissionsCount });
+  } catch (err) {
+    return res.status(500).json({ message: "Failed to fetch user" });
+  }
+}
 async function logoutUser(req, res, next) {
   res.clearCookie("token");
   return res.send("Logged out");
@@ -60,5 +79,6 @@ module.exports = {
   registerUser,
   loginUser,
   getCurrentUser,
+  getMe,
   logoutUser,
 };
