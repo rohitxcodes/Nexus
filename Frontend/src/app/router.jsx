@@ -9,6 +9,7 @@ import Login from "../pages/auth/Login";
 import Landing from "../pages/Landing/DemoLandingPage";
 import ProblemPage from "../features/problem_solving/pages/ProblemPage";
 import Shop from "../pages/Shop/Shop";
+import Profile from "../pages/Profile/Profile";
 import PublicRoute from "../components/common/PublicRoute";
 
 import ProtectedRoute from "../components/common/ProtectedRoute";
@@ -79,6 +80,14 @@ const router = createBrowserRouter([
     element: (
       <ProtectedRoute>
         <Shop />
+      </ProtectedRoute>
+    ),
+  },
+  {
+    path: "/profile",
+    element: (
+      <ProtectedRoute>
+        <Profile />
       </ProtectedRoute>
     ),
   },
