@@ -50,6 +50,12 @@ const problemSchema = new mongoose.Schema(
       java: { type: String, default: "" },
       cpp: { type: String, default: "" },
     },
+    boilerplates: {
+      javascript: { type: String, default: "" },
+      python: { type: String, default: "" },
+      java: { type: String, default: "" },
+      cpp: { type: String, default: "" },
+    },
   },
   { timestamps: true },
 );
