@@ -44,5 +44,6 @@ app.use("/api/auth", authRouter);
 app.use("/api/levels", levelRouter);
 app.use("/api/submissions", submissionRouter);
 app.use("/api/xp", xpRouter);
+app.use("/health", require("./routes/health.route"));
 
 module.exports = app;
