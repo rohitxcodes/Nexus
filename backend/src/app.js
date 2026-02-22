@@ -7,6 +7,7 @@ const levelRouter = require("./routes/level.routes");
 const submissionRouter = require("./routes/submission.routes");
 const xpRouter = require("./routes/xp.routes");
 const healthRouter = require("./routes/health.routes");
+const leaderboardRouter = require("./routes/leaderbord.global.routes");
 
 const app = express();
 
@@ -46,5 +47,6 @@ app.use("/api/levels", levelRouter);
 app.use("/api/submissions", submissionRouter);
 app.use("/api/xp", xpRouter);
 app.use("/health", healthRouter);
+app.use("/api/leaderboard", leaderboardRouter);
 
 module.exports = app;
