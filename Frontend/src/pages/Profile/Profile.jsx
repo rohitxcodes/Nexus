@@ -1,12 +1,19 @@
 import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import Nav from "../../components/layout/Nav";
 import { API_BASE } from "../../utils/api";
-import { getToken } from "../../utils/storage";
+import { getToken, clearToken } from "../../utils/storage";
 
 const Profile = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [profile, setProfile] = useState(null);
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    clearToken();
+    navigate("/");
+  };
 
   useEffect(() => {
     const load = async () => {
@@ -57,23 +64,34 @@ const Profile = () => {
           ) : error ? (
             <p className="mt-4 text-red-600">{error}</p>
           ) : (
-            <div className="mt-4 space-y-2">
-              <p className="text-gray-700">
-                <span className="font-semibold">Username:</span>{" "}
-                {profile?.user?.username}
-              </p>
-              <p className="text-gray-700">
-                <span className="font-semibold">Email:</span>{" "}
-                {profile?.user?.email}
-              </p>
-              <p className="text-gray-700">
-                <span className="font-semibold">Total XP:</span>{" "}
-                {profile?.user?.totalXP ?? 0}
-              </p>
-              <p className="text-gray-700">
-                <span className="font-semibold">Questions Submitted:</span>{" "}
-                {profile?.submissionsCount ?? 0}
-              </p>
+            <div>
+              <div className="mt-4 space-y-2">
+                <p className="text-gray-700">
+                  <span className="font-semibold">Username:</span>{" "}
+                  {profile?.user?.username}
+                </p>
+                <p className="text-gray-700">
+                  <span className="font-semibold">Email:</span>{" "}
+                  {profile?.user?.email}
+                </p>
+                <p className="text-gray-700">
+                  <span className="font-semibold">Total XP:</span>{" "}
+                  {profile?.user?.totalXP ?? 0}
+                </p>
+                <p className="text-gray-700">
+                  <span className="font-semibold">Questions Submitted:</span>{" "}
+                  {profile?.submissionsCount ?? 0}
+                </p>
+              </div>
+              
+              <div className="mt-6">
+                <button
+                  onClick={handleLogout}
+                  className="bg-red-600 text-white px-6 py-2 rounded-lg hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 transition-colors"
+                >
+                  Logout
+                </button>
+              </div>
             </div>
           )}
         </div>
