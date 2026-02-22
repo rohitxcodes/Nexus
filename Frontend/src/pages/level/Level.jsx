@@ -1,8 +1,11 @@
+import { useNavigate } from "react-router-dom";
 import BounceIcons from "../../features/problem_solving/components/level/BounceIcons";
 
 export default function LevelPage() {
+  const navigate = useNavigate();
+
   return (
-    <div className="relative w-screen min-h-screen overflow-x-hidden overflow-y-auto">
+    <div className="relative min-h-screen overflow-x-hidden overflow-y-auto">
       {/* background video */}
       <video
         className="fixed inset-0 w-full h-full object-cover -z-10"
@@ -27,13 +30,39 @@ export default function LevelPage() {
           flex flex-col gap-6
         "
       >
-        <img src="/logo.png" className="h-24" />
 
-        <nav className="flex flex-col gap-4 text-3xl font-bold">
-          <button>TRAIN</button>
-          <button>PRACTICE</button>
-          <button>ABOUT</button>
-          <button>SHOP</button>
+        <img 
+          src="/logo.png" 
+          className="h-24 cursor-pointer" 
+          alt="Logo" 
+          onClick={() => navigate("/")}
+        />
+
+        <nav className="flex flex-col gap-20 text-4xl font-bold py-6 px-9">
+          <button 
+          className="cursor-pointer"
+            onClick={() => navigate("/train")}
+          >
+            TRAIN
+          </button>
+          <button 
+          className="cursor-pointer"
+            onClick={() => navigate("/practice")}
+          >
+            PRACTICE
+          </button>
+          <button 
+          className="cursor-pointer"
+            onClick={() => navigate("/about")}
+          >
+            ABOUT
+          </button>
+          <button 
+          className="cursor-pointer"
+            onClick={() => navigate("/shop")}
+          >
+            SHOP
+          </button>
         </nav>
       </div>
     </div>
