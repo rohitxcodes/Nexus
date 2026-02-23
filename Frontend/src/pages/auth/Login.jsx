@@ -1,13 +1,15 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { FaArrowCircleRight } from "react-icons/fa";
 import { setToken } from "../../utils/storage";
 import { API_BASE } from "../../utils/api";
+import Snowfall from "react-snowfall";
+
 const Login = () => {
   const [formData, setFormData] = useState({
     email: "",
     password: "",
   });
+
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const [showSuccess, setShowSuccess] = useState(false);
@@ -28,9 +30,7 @@ const Login = () => {
     try {
       const response = await fetch(`${API_BASE}/api/auth/login`, {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
+        headers: { "Content-Type": "application/json" },
         credentials: "include",
         body: JSON.stringify({
           email: formData.email,
@@ -42,6 +42,7 @@ const Login = () => {
         const data = await response.json();
         setToken(data.token);
         setShowSuccess(true);
+
         setTimeout(() => {
           setShowSuccess(false);
           navigate("/home");
@@ -58,20 +59,25 @@ const Login = () => {
   };
 
   return (
-    <div
-      className="min-h-screen flex items-center justify-center"
-      style={{
-        background: "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
-        padding: "20px",
-      }}
-    >
+    <div className="relative min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-100 via-sky-200 to-indigo-300 p-5 overflow-hidden">
+      
+      <Snowfall
+        color="#E0F1FF"
+        snowflakeCount={500}
+        style={{
+          position: "fixed",
+          width: "100vw",
+          height: "100vh",
+        }}
+      />
+
       {showSuccess && (
-        <div className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50">
-          <div className="bg-white rounded-2xl shadow-2xl p-8 max-w-sm mx-4 transform scale-100 animate-pulse">
+        <div className="fixed inset-0 flex items-center justify-center z-50 bg-black/40">
+          <div className="bg-white rounded-2xl shadow-xl p-8 max-w-sm mx-4">
             <div className="text-center">
-              <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+              <div className="w-16 h-16 bg-emerald-100 rounded-full flex items-center justify-center mx-auto mb-4">
                 <svg
-                  className="w-8 h-8 text-green-500"
+                  className="w-8 h-8 text-emerald-500"
                   fill="none"
                   stroke="currentColor"
                   viewBox="0 0 24 24"
@@ -81,28 +87,32 @@ const Login = () => {
                     strokeLinejoin="round"
                     strokeWidth="2"
                     d="M5 13l4 4L19 7"
-                  ></path>
+                  />
                 </svg>
               </div>
-              <h3 className="text-2xl font-bold text-gray-800 mb-2">
+              <h3 className="text-2xl font-bold text-slate-800 mb-2">
                 Login Successful!
               </h3>
-              <p className="text-gray-600">Welcome back to Nexus</p>
+              <p className="text-slate-500">Welcome back to Nexus</p>
             </div>
           </div>
         </div>
       )}
 
-      <div className="bg-white rounded-2xl shadow-2xl p-8 w-full max-w-md">
+      {/* 🔥 Darker Elevated Card */}
+      <div className="relative z-10 bg-slate-100 backdrop-blur-md rounded-2xl 
+                      shadow-2xl shadow-slate-500/25 
+                      border border-slate-200 
+                      p-8 w-full max-w-md">
         <div className="text-center mb-6">
-          <h1 className="text-3xl font-bold text-gray-800 mb-2">
+          <h1 className="text-3xl font-bold text-slate-800 mb-2">
             Welcome Back
           </h1>
-          <p className="text-gray-600">Sign in to your account</p>
+          <p className="text-slate-600">Sign in to your account</p>
         </div>
 
         {error && (
-          <div className="mb-4 p-3 bg-red-100 border border-red-400 text-red-700 rounded-lg">
+          <div className="mb-4 p-3 bg-red-100 border border-red-300 text-red-600 rounded-lg">
             {error}
           </div>
         )}
@@ -111,7 +121,7 @@ const Login = () => {
           <div>
             <label
               htmlFor="email"
-              className="block text-sm font-medium text-gray-700 mb-1"
+              className="block text-sm font-medium text-slate-700 mb-1"
             >
               Email
             </label>
@@ -121,7 +131,7 @@ const Login = () => {
               name="email"
               value={formData.email}
               onChange={handleChange}
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+              className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-cyan-400 focus:border-cyan-400"
               required
             />
           </div>
@@ -129,7 +139,7 @@ const Login = () => {
           <div>
             <label
               htmlFor="password"
-              className="block text-sm font-medium text-gray-700 mb-1"
+              className="block text-sm font-medium text-slate-700 mb-1"
             >
               Password
             </label>
@@ -139,7 +149,7 @@ const Login = () => {
               name="password"
               value={formData.password}
               onChange={handleChange}
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+              className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-cyan-400 focus:border-cyan-400"
               required
             />
           </div>
@@ -149,11 +159,11 @@ const Login = () => {
               id="remember-me"
               name="remember-me"
               type="checkbox"
-              className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
+              className="h-4 w-4 text-cyan-500 focus:ring-cyan-400 border-slate-300 rounded"
             />
             <label
               htmlFor="remember-me"
-              className="ml-2 block text-sm text-gray-700"
+              className="ml-2 block text-sm text-slate-600"
             >
               Remember me
             </label>
@@ -162,16 +172,19 @@ const Login = () => {
           <button
             type="submit"
             disabled={loading}
-            className="w-full bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-colors"
+            className="w-full bg-cyan-500 hover:bg-cyan-600 text-white py-2 px-4 rounded-lg shadow-md shadow-cyan-400/30 transition-all duration-200"
           >
             {loading ? "Signing in..." : "Sign in"}
           </button>
         </form>
 
         <div className="mt-4 text-center">
-          <p className="text-sm text-gray-600">
+          <p className="text-sm text-slate-600">
             Don't have an account?{" "}
-            <Link to="/register" className="text-blue-600 hover:underline">
+            <Link
+              to="/register"
+              className="text-cyan-600 hover:text-cyan-700 font-medium"
+            >
               Sign up
             </Link>
           </p>
