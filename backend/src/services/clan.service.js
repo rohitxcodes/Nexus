@@ -31,7 +31,7 @@ async function requestJoinClan(userId, clanId) {
   const clan = await Clan.findById(clanId);
   if (!clan) throw new Error("Clan not found");
 
-  if (clan.joinRequests.includes(userId)) {
+  if (clan.joinRequests.some((id) => id.toString() === userId.toString())) {
     throw new Error("Already requested to join");
   }
 
@@ -60,8 +60,15 @@ async function approveJoinRequest(adminId, clanId, userIdToApprove) {
 
   const user = await User.findById(userIdToApprove);
   if (!user) throw new Error("User not found");
-  if (user.clan) throw new Error("User already in a clan");
+  if (user.clan) {
+    clan.joinRequests = clan.joinRequests.filter(
+      (id) => id.toString() !== userIdToApprove.toString(),
+    );
 
+    await clan.save();
+
+    throw new Error("User already in a clan");
+  }
   // Assign clan
   user.clan = clanId;
   await user.save();
@@ -92,6 +99,10 @@ async function rejectJoinRequest(adminId, clanId, userIdToReject) {
   if (!requestExists) {
     throw new Error("No such join request");
   }
+  clan.joinRequests = clan.joinRequests.filter(
+    (id) => id.toString() !== userIdToReject.toString(),
+  );
+
   await clan.save();
 
   return { message: "Join request rejected" };
@@ -131,7 +142,70 @@ async function deleteClan(adminId, clanId) {
 
   return { message: "Clan deleted successfully" };
 }
+async function addMembers(adminId, clanId, userIds) {
+  if (!Array.isArray(userIds) || userIds.length === 0) {
+    throw new Error("userIds must be a non-empty array");
+  }
 
+  const clan = await Clan.findById(clanId);
+  if (!clan) throw new Error("Clan not found");
+
+  if (clan.admin.toString() !== adminId.toString()) {
+    throw new Error("Only admin can add members");
+  }
+
+  const users = await User.find({ _id: { $in: userIds } });
+
+  for (const user of users) {
+    if (user.clan) continue; // skip already in clan
+    user.clan = clanId;
+    await user.save();
+  }
+
+  return { message: "Members added successfully" };
+}
+async function leaveClan(userId) {
+  const user = await User.findById(userId);
+  if (!user) throw new Error("User not found");
+
+  if (!user.clan) throw new Error("Not in any clan");
+
+  const clan = await Clan.findById(user.clan);
+  if (!clan) throw new Error("Clan not found");
+
+  if (clan.admin.toString() === userId.toString()) {
+    throw new Error("Admin cannot leave. Delete or transfer clan.");
+  }
+
+  user.clan = null;
+  await user.save();
+
+  return { message: "Left clan successfully" };
+}
+async function removeMember(adminId, clanId, userIdToRemove) {
+  const clan = await Clan.findById(clanId);
+  if (!clan) throw new Error("Clan not found");
+
+  if (clan.admin.toString() !== adminId.toString()) {
+    throw new Error("Only admin can remove members");
+  }
+
+  if (adminId.toString() === userIdToRemove.toString()) {
+    throw new Error("Admin cannot remove themselves");
+  }
+
+  const user = await User.findById(userIdToRemove);
+  if (!user) throw new Error("User not found");
+
+  if (!user.clan || user.clan.toString() !== clanId.toString()) {
+    throw new Error("User not in this clan");
+  }
+
+  user.clan = null;
+  await user.save();
+
+  return { message: "Member removed successfully" };
+}
 module.exports = {
   createClan,
   requestJoinClan,
@@ -139,4 +213,7 @@ module.exports = {
   rejectJoinRequest,
   getPendingRequests,
   deleteClan,
+  addMembers,
+  leaveClan,
+  removeMember,
 };
