@@ -34,6 +34,11 @@ const userSchema = new mongoose.Schema(
       type: [Number],
       default: [],
     },
+    clan: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Clan",
+      default: null,
+    },
   },
   { timestamps: true },
 );
