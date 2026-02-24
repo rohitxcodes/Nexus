@@ -30,41 +30,44 @@ export default function LevelPage() {
           flex flex-col gap-6
         "
       >
-
-        <img 
-          src="/logo.png" 
-          className="h-24 cursor-pointer" 
-          alt="Logo" 
+        <img
+          src="/logo.png"
+          className="h-24 cursor-pointer"
+          alt="Logo"
           onClick={() => navigate("/")}
         />
 
         <nav className="flex flex-col gap-20 text-4xl font-bold py-6 px-9">
-          <button 
-          className="cursor-pointer"
-            onClick={() => navigate("/train")}
-          >
+          <button className="cursor-pointer" onClick={() => navigate("/train")}>
             TRAIN
           </button>
-          <button 
-          className="cursor-pointer"
+          <button
+            className="cursor-pointer"
             onClick={() => navigate("/practice")}
           >
             PRACTICE
           </button>
-          <button 
-          className="cursor-pointer"
-            onClick={() => navigate("/about")}
-          >
+          <button className="cursor-pointer" onClick={() => navigate("/about")}>
             ABOUT
           </button>
-          <button 
-          className="cursor-pointer"
-            onClick={() => navigate("/shop")}
-          >
+          <button className="cursor-pointer" onClick={() => navigate("/shop")}>
             SHOP
           </button>
         </nav>
       </div>
+      <div
+  className="
+    fixed top-8 bottom-8 z-50
+    w-90 left-[1100px]
+    px-5 py-10
+    bg-white/30 backdrop-blur-2xl
+    text-[#363232]
+    flex flex-col gap-6
+    rounded-3xl
+  "
+>
+  {/* Content goes here */}
+</div>
     </div>
   );
 }

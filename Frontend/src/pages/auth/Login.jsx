@@ -32,10 +32,7 @@ const Login = () => {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         credentials: "include",
-        body: JSON.stringify({
-          email: formData.email,
-          password: formData.password,
-        }),
+        body: JSON.stringify(formData),
       });
 
       if (response.ok) {
@@ -60,7 +57,6 @@ const Login = () => {
 
   return (
     <div className="relative min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-100 via-sky-200 to-indigo-300 p-5 overflow-hidden">
-      
       <Snowfall
         color="#E0F1FF"
         snowflakeCount={500}
@@ -93,17 +89,16 @@ const Login = () => {
               <h3 className="text-2xl font-bold text-slate-800 mb-2">
                 Login Successful!
               </h3>
-              <p className="text-slate-500">Welcome back to Nexus</p>
+              <p className="text-slate-500">Welcome back to Code Quest</p>
             </div>
           </div>
         </div>
       )}
 
-      {/* 🔥 Darker Elevated Card */}
-      <div className="relative z-10 bg-slate-100 backdrop-blur-md rounded-2xl 
-                      shadow-2xl shadow-slate-500/25 
-                      border border-slate-200 
-                      p-8 w-full max-w-md">
+      <div
+        className="relative z-10 bg-[#51E4D0] backdrop-blur-md rounded-4xl shadow-2xl shadow-slate-500/25 border border-slate-200 p-8 w-full max-w-md"
+        style={{ filter: "drop-shadow(0px 0px 15px rgba(0,0,0,0.5))" }}
+      >
         <div className="text-center mb-6">
           <h1 className="text-3xl font-bold text-slate-800 mb-2">
             Welcome Back
@@ -117,7 +112,7 @@ const Login = () => {
           </div>
         )}
 
-        <form onSubmit={handleSubmit} className="space-y-4">
+        <form onSubmit={handleSubmit} className="space-y-4" autoComplete="off">
           <div>
             <label
               htmlFor="email"
@@ -129,9 +124,11 @@ const Login = () => {
               type="email"
               id="email"
               name="email"
+              placeholder="Type your email here"
               value={formData.email}
               onChange={handleChange}
-              className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-cyan-400 focus:border-cyan-400"
+              autoComplete="off"
+              className="w-full px-4 py-2 font-sans bg-[#00A2FF] text-black border border-slate-300 rounded-3xl focus:ring-2 focus:ring-cyan-400 focus:border-cyan-400"
               required
             />
           </div>
@@ -147,9 +144,11 @@ const Login = () => {
               type="password"
               id="password"
               name="password"
+              placeholder="Type your password here"
               value={formData.password}
               onChange={handleChange}
-              className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-cyan-400 focus:border-cyan-400"
+              autoComplete="new-password"
+              className="w-full px-4 py-2 font-sans bg-[#00A2FF] text-black border border-slate-300 rounded-3xl focus:ring-2 focus:ring-cyan-400 focus:border-cyan-400"
               required
             />
           </div>
@@ -159,7 +158,7 @@ const Login = () => {
               id="remember-me"
               name="remember-me"
               type="checkbox"
-              className="h-4 w-4 text-cyan-500 focus:ring-cyan-400 border-slate-300 rounded"
+              className="h-4 w-4 text-cyan-500 focus:ring-cyan-400 border-slate-300"
             />
             <label
               htmlFor="remember-me"
@@ -172,7 +171,7 @@ const Login = () => {
           <button
             type="submit"
             disabled={loading}
-            className="w-full bg-cyan-500 hover:bg-cyan-600 text-white py-2 px-4 rounded-lg shadow-md shadow-cyan-400/30 transition-all duration-200"
+            className="w-full bg-[#324BF0] hover:bg-cyan-600 text-white py-2 px-4 rounded-3xl shadow-md shadow-cyan-400/30 transition-all duration-200"
           >
             {loading ? "Signing in..." : "Sign in"}
           </button>

@@ -6,7 +6,7 @@ const Nav = () => {
   return (
     <>
       <nav>
-        <div className="nav flex gap-50">
+        <div className="nav flex gap-50 z-10">
           <div className="logo py-5">
             <Link to="/">
               <img className="h-20" src="/logo.png" alt="" />
