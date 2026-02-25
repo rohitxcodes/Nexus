@@ -56,15 +56,14 @@ const Login = () => {
   };
 
   return (
-    <div className="relative min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-100 via-sky-200 to-indigo-300 p-5 overflow-hidden">
-      <Snowfall
-        color="#E0F1FF"
-        snowflakeCount={500}
-        style={{
-          position: "fixed",
-          width: "100vw",
-          height: "100vh",
-        }}
+    <div className="relative min-h-screen flex items-center justify-center p-5 overflow-hidden">
+      <video
+        className="fixed inset-0 w-full h-full object-cover -z-10"
+        autoPlay
+        loop
+        muted
+        playsInline
+        src="/gg.mp4"
       />
 
       {showSuccess && (

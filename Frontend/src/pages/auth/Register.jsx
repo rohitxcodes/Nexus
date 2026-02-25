@@ -55,12 +55,16 @@ const Register = () => {
   return (
     <div
       className="min-h-screen flex items-center justify-center"
-      style={{
-        background: "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
-        padding: "20px",
-      }}
+      
     >
-      <Snowfall color="82C3D9"/>
+      <video
+        className="fixed inset-0 w-full h-full object-cover -z-10"
+        autoPlay
+        loop
+        muted
+        playsInline
+        src="/gg.mp4"
+      />
       <div className="bg-[#51E4D0] rounded-2xl shadow-2xl p-8 w-full max-w-md">
         <div className="text-center mb-6">
           <h1 className="text-3xl font-bold text-gray-800 mb-2">
