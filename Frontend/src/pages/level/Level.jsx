@@ -1,5 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import BounceIcons from "../../features/problem_solving/components/level/BounceIcons";
+import { Link } from "react-router-dom";
 
 export default function LevelPage() {
   const navigate = useNavigate();
@@ -38,25 +39,22 @@ export default function LevelPage() {
         />
 
         <nav className="flex flex-col gap-20 text-4xl font-bold py-6 px-9">
-          <button className="cursor-pointer" onClick={() => navigate("/train")}>
+          <Link to="/train" className="cursor-pointer">
             TRAIN
-          </button>
-          <button
-            className="cursor-pointer"
-            onClick={() => navigate("/practice")}
-          >
+          </Link>
+          <Link to="/practice" className="cursor-pointer">
             PRACTICE
-          </button>
-          <button className="cursor-pointer" onClick={() => navigate("/about")}>
+          </Link>
+          <Link to="/about" className="cursor-pointer">
             ABOUT
-          </button>
-          <button className="cursor-pointer" onClick={() => navigate("/shop")}>
+          </Link>
+          <Link to="/shop" className="cursor-pointer">
             SHOP
-          </button>
+          </Link>
         </nav>
       </div>
       <div
-  className="
+        className="
     fixed top-8 bottom-8 z-50
     w-90 left-[1100px]
     px-5 py-10
@@ -65,9 +63,9 @@ export default function LevelPage() {
     flex flex-col gap-6
     rounded-3xl
   "
->
-  {/* Content goes here */}
-</div>
+      >
+        {/* Content goes here */}
+      </div>
     </div>
   );
 }

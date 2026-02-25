@@ -73,16 +73,12 @@ const Home = () => {
             type="video/mp4"
           />
         </video>
+        <Nav />
 
         <div style={{ color: "white" }}>
-          <Nav />
-          
           {/* 2. Attach the ref to the parent container of your animate-item */}
-          <div 
-            className="py-10" 
-            ref={(el) => (sectionsRef.current[0] = el)}
-          >
-            <div className="animate-item body gap-20 ">
+          <div className="py-10" ref={(el) => (sectionsRef.current[0] = el)}>
+            <div className="body gap-20 ">
               <div>
                 <p className="body-text text-7xl">FUTURE-READY,</p>
                 <p className="body-text text-7xl">SMART LEARNING</p>
@@ -94,7 +90,7 @@ const Home = () => {
                     <FaArrowCircleRight size={40} />
                   </div>
                 </Link>
-                <Link to="#">
+                <Link to="/Shop">
                   <div className="buttons flex items-center gap-5 tracking-wider">
                     <p className="text-center">Shop</p>
                     <FaArrowCircleRight size={40} />
@@ -103,16 +99,16 @@ const Home = () => {
               </div>
             </div>
           </div>
-          
-          <Body />
-          
+          <div className="animate-item">
+            <Body />
+          </div>
           {/* 3. (Optional) Attach the next ref index if you want to animate items here too */}
-          <div 
-            className="wrapper pb-100" 
+          <div
+            className="wrapper pb-100"
             ref={(el) => (sectionsRef.current[1] = el)}
           >
             {/* If you add className="animate-item" to any element inside here, it will animate on scroll! */}
-            <div className="box animate-item">
+            <div className="box">
               <div>
                 <p
                   className="text-black text-center text-6xl pt-10"

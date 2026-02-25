@@ -1,12 +1,12 @@
 import React from "react";
-
 import { Link } from "react-router-dom";
 import { FaUserCircle } from "react-icons/fa";
+
 const Nav = () => {
   return (
     <>
       <nav>
-        <div className="nav flex gap-50 z-10">
+        <div className="nav flex gap-50 z-1">
           <div className="logo py-5">
             <Link to="/">
               <img className="h-20" src="/logo.png" alt="" />
@@ -22,7 +22,7 @@ const Nav = () => {
             <Link to="/train">
               <p style={{ cursor: "pointer" }}>About</p>
             </Link>
-            <Link to="/train">
+            <Link to="/Shop">
               <p style={{ cursor: "pointer" }}>Shop</p>
             </Link>
 

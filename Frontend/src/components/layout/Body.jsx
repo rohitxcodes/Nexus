@@ -40,7 +40,7 @@ const Body = () => {
   return (
     <>
       {/* SECTION 1: Attach ref to index 0 */}
-      <div className="wrapper py-10" ref={(el) => (sectionsRef.current[0] = el)}>
+      <div className="wrapper !pt-0 translate-y-50" ref={(el) => (sectionsRef.current[0] = el)}>
         <div className="box flex py-10 px-10">
           
           {/* Added "animate-item" to these child divs for the stagger effect */}
@@ -91,7 +91,7 @@ const Body = () => {
       </div>
 
       {/* SECTION 2: Attach ref to index 1 */}
-      <div className="wrapper1" ref={(el) => (sectionsRef.current[1] = el)}>
+      <div className="wrapper1 !pt-0 translate-y-50" ref={(el) => (sectionsRef.current[1] = el)}>
         
         {/* Added animate-item to the title so it pops in first */}
         <h1
