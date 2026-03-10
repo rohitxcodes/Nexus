@@ -145,9 +145,9 @@ export default function BounceIcons() {
                       }
                     >
                       <img
-                        src="/knight.png"
+                        src="/samurai.png"
                         className="w-[200px] max-w-none translate-y-0 translate-x-5"
-                        alt="Knight"
+                        alt="Samurai"
                       />
                     </div>
                   )}
