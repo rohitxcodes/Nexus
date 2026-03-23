@@ -60,7 +60,7 @@ const Register = () => {
         padding: "20px",
       }}
     >
-      <Snowfall color="82C3D9"/>
+      <Snowfall color="#82C3D9"/>
       <div className="bg-white rounded-2xl shadow-2xl p-8 w-full max-w-md">
         <div className="text-center mb-6">
           <h1 className="text-3xl font-bold text-gray-800 mb-2">

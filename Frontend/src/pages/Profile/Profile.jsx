@@ -1,10 +1,28 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import Nav from "../../components/layout/Nav";
 import { API_BASE } from "../../utils/api";
 import { getToken, clearToken } from "../../utils/storage";
+import Snowfall from "react-snowfall";
+import SpotlightCard from "@/components/ui/spotlight-card";
+import BounceIcons from "../../features/problem_solving/components/level/BounceIcons";
+import { FileInput } from "lucide-react";
+
 
 const Profile = () => {
+  const fileInputRef = useRef(null);
+  const [image, setImage] = useState("avtar.png");
+
+  const handleclick = () => {
+    fileInputRef.current.click();
+  }
+  const handleChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      const imageUrl = URL.createObjectURL(file);
+      setImage(imageUrl);
+    }
+  }
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [profile, setProfile] = useState(null);
@@ -51,141 +69,65 @@ const Profile = () => {
   }, []);
 
   return (
-    <div className="min-h-screen bg-[#129676] text-white">
+    <>
+      <style>{`
+        .nav-buttons p {
+          color: #fdf5e6 !important;
+        }
+        .nav-buttons a {
+          color: #fdf5e6 !important;
+        }
+      `}</style>
       <Nav />
-
-      <div className="max-w-6xl mx-auto px-8 py-12">
-
-        {/* Tabs */}
-        <div className="flex gap-6 border-b border-white/30 mb-8">
-          <button
-            onClick={() => setActiveTab("overview")}
-            className={`pb-3 ${
-              activeTab === "overview"
-                ? "border-b-2 border-white font-medium"
-                : "opacity-70"
-            }`}
-          >
-            Overview
-          </button>
-
-          <button
-            onClick={() => setActiveTab("progress")}
-            className={`pb-3 ${
-              activeTab === "progress"
-                ? "border-b-2 border-white font-medium"
-                : "opacity-70"
-            }`}
-          >
-            Progress
-          </button>
-        </div>
-
-        {loading ? (
-          <p>Loading...</p>
-        ) : error ? (
-          <p className="text-red-200">{error}</p>
-        ) : (
-          <div className="flex flex-col md:flex-row gap-12">
-
-            {/* LEFT SIDE */}
-            <div className="w-full md:w-1/3 flex flex-col items-start">
-
-              {/* Avatar */}
-              <div className="w-40 h-40 rounded-full overflow-hidden bg-gray-300">
-                <img
-                  src="https://i.pravatar.cc/300"
-                  alt="profile"
-                  className="w-full h-full object-cover"
-                />
-              </div>
-
-              <h1 className="mt-6 text-2xl font-semibold">
-                {profile?.user?.username}
-              </h1>
-
-              <p className="opacity-80">
-                {profile?.user?.email}
-              </p>
-
-              <p className="mt-3 text-sm opacity-90">
-                Full Stack Developer | Competitive Programmer
-              </p>
-
-              <button
-                onClick={handleLogout}
-                className="mt-6 w-64 bg-[#0f1c2e] hover:bg-[#1a2a44] py-2 rounded-md transition"
-              >
-                Logout
-              </button>
-
-              <p className="mt-6 text-sm opacity-80">
-                <span className="font-semibold">
-                  {profile?.submissionsCount ?? 0}
-                </span>{" "}
-                submissions ·{" "}
-                <span className="font-semibold">
-                  {profile?.user?.totalXP ?? 0}
-                </span>{" "}
-                XP
-              </p>
-            </div>
-
-            {/* RIGHT SIDE */}
-            <div className="flex-1">
-
-              {activeTab === "overview" && (
-                <div className="bg-[#0f1c2e] p-10 rounded-xl shadow-xl w-full max-w-2xl">
-
-                  <h2 className="text-lg font-semibold mb-6">
-                    Profile Stats
-                  </h2>
-
-                  <div className="space-y-4 text-sm">
-                    <p>
-                      <span className="opacity-70">TOTAL XP :</span>{" "}
-                      <span className="font-semibold text-lg">
-                        {profile?.user?.totalXP ?? 0}
-                      </span>
-                    </p>
-
-                    <p>
-                      <span className="opacity-70">Questions Submitted :</span>{" "}
-                      <span className="font-semibold">
-                        {profile?.submissionsCount ?? 0}
-                      </span>
-                    </p>
-
-                    <p>
-                      <span className="opacity-70">Email :</span>{" "}
-                      {profile?.user?.email}
-                    </p>
-
-                    <p>
-                      <span className="opacity-70">Username :</span>{" "}
-                      {profile?.user?.username}
-                    </p>
+      <Snowfall
+        snowflakeCount={1000}
+        style={{
+          position: "fixed",
+          width: "100vw",
+          height: "100vh",
+          zIndex: 50
+        }}
+      />
+      <div className="h-screen bg-cover bg-center " style={{ backgroundImage: "url('/profile bg.png')" }}>
+        <div className="h-[400px] flex gap-60 items-center">
+          <div className="h-[450px] w-[450px] translate-x-[100px] pl-20  translate-y-[250px] overflow-hidden rounded-xl">
+            <img
+              onClick={handleclick}
+              src={image}
+              alt=""
+              className="h-full w-full object-cover cursor-pointer"
+            />
+          </div>          <input
+            type="file"
+            accept="image/*"
+            ref={fileInputRef}
+            onChange={handleChange}
+            className="hidden"
+          />
+          <div className="pl-[200px] pt-[300px] relative">
+            <SpotlightCard className="inline-block  ">
+              <div>
+                <img className=" h-[400px] w-[600px] " src="details.png" alt="details" />
+                <div className="absolute inset-0 flex flex-col p-8 text-white pointer-events-none">
+                  <h1 className="text-3xl -translate-y-2.5 translate-x-2.5">PROFILE</h1>
+                  <div className="p-3 ">
+                    <p className="text-xl text-lg translate-y-2.5 translate-x-2.5">Username: {profile?.user?.username}</p>
+                    <p className="text-xl text-lg translate-y-2.5 translate-x-2.5">Email: {profile?.user?.email}</p>
+                    <p className="text-xl text-lg translate-y-2.5 translate-x-2.5">Submissions: {profile?.submissionsCount}</p>
+                    <p className="text-xl text-lg translate-y-2.5 translate-x-2.5">Submissions: {profile?.submissionsCount}</p>
+                    <p className="text-xl text-lg translate-y-2.5 translate-x-2.5">Submissions: {profile?.submissionsCount}</p>
+                    <p className="text-xl text-lg translate-y-2.5 translate-x-2.5">Submissions: {profile?.submissionsCount}</p>
+                    <p className="text-xl text-lg translate-y-2.5 translate-x-2.5">Submissions: {profile?.submissionsCount}</p>
                   </div>
                 </div>
-              )}
-
-              {activeTab === "progress" && (
-                <div className="bg-[#0f1c2e] p-10 rounded-xl shadow-xl w-full max-w-2xl">
-                  <h2 className="text-lg font-semibold mb-4">
-                    Progress Overview
-                  </h2>
-
-                  <p className="text-sm opacity-80">
-                    More progress features coming soon...
-                  </p>
-                </div>
-              )}
-            </div>
+              </div>
+            </SpotlightCard>
 
           </div>
-        )}
+
+        </div>
       </div>
-    </div>
+    </>
   );
 };
 
