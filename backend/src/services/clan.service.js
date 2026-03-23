@@ -1,7 +1,6 @@
 const Clan = require("../models/clan.model");
 const User = require("../models/user.model");
 
-// Create Clan
 async function createClan(userId, name, description) {
   const user = await User.findById(userId);
   if (!user) throw new Error("User not found");
@@ -10,11 +9,7 @@ async function createClan(userId, name, description) {
   const existing = await Clan.findOne({ name });
   if (existing) throw new Error("Clan name already taken");
 
-  const clan = await Clan.create({
-    name,
-    description,
-    admin: userId,
-  });
+  const clan = await Clan.create({ name, description, admin: userId });
 
   user.clan = clan._id;
   await user.save();
@@ -22,7 +17,6 @@ async function createClan(userId, name, description) {
   return clan;
 }
 
-// Send Join Request
 async function requestJoinClan(userId, clanId) {
   const user = await User.findById(userId);
   if (!user) throw new Error("User not found");
@@ -41,7 +35,6 @@ async function requestJoinClan(userId, clanId) {
   return { message: "Join request sent to admin" };
 }
 
-// Approve Join Request (Admin Only)
 async function approveJoinRequest(adminId, clanId, userIdToApprove) {
   const clan = await Clan.findById(clanId);
   if (!clan) throw new Error("Clan not found");
@@ -53,37 +46,30 @@ async function approveJoinRequest(adminId, clanId, userIdToApprove) {
   const requestExists = clan.joinRequests.some(
     (id) => id.toString() === userIdToApprove.toString(),
   );
-
-  if (!requestExists) {
-    throw new Error("No such join request");
-  }
+  if (!requestExists) throw new Error("No such join request");
 
   const user = await User.findById(userIdToApprove);
   if (!user) throw new Error("User not found");
+
   if (user.clan) {
     clan.joinRequests = clan.joinRequests.filter(
       (id) => id.toString() !== userIdToApprove.toString(),
     );
-
     await clan.save();
-
     throw new Error("User already in a clan");
   }
-  // Assign clan
+
   user.clan = clanId;
   await user.save();
 
-  // Remove request
   clan.joinRequests = clan.joinRequests.filter(
     (id) => id.toString() !== userIdToApprove.toString(),
   );
-
   await clan.save();
 
   return { message: "User added to clan" };
 }
 
-// Reject Join Request (Admin Only)
 async function rejectJoinRequest(adminId, clanId, userIdToReject) {
   const clan = await Clan.findById(clanId);
   if (!clan) throw new Error("Clan not found");
@@ -95,38 +81,30 @@ async function rejectJoinRequest(adminId, clanId, userIdToReject) {
   const requestExists = clan.joinRequests.some(
     (id) => id.toString() === userIdToReject.toString(),
   );
+  if (!requestExists) throw new Error("No such join request");
 
-  if (!requestExists) {
-    throw new Error("No such join request");
-  }
   clan.joinRequests = clan.joinRequests.filter(
     (id) => id.toString() !== userIdToReject.toString(),
   );
-
   await clan.save();
 
   return { message: "Join request rejected" };
 }
 
-// Get Pending Requests (Admin Only)
 async function getPendingRequests(adminId, clanId) {
   const clan = await Clan.findById(clanId).populate(
     "joinRequests",
     "username totalXP",
   );
-
   if (!clan) throw new Error("Clan not found");
 
   if (clan.admin.toString() !== adminId.toString()) {
     throw new Error("Only admin can view requests");
   }
 
-  return {
-    clanName: clan.name,
-    pending: clan.joinRequests,
-  };
+  return { clanName: clan.name, pending: clan.joinRequests };
 }
-// Delete Clan (Admin Only)
+
 async function deleteClan(adminId, clanId) {
   const clan = await Clan.findById(clanId);
   if (!clan) throw new Error("Clan not found");
@@ -135,13 +113,12 @@ async function deleteClan(adminId, clanId) {
     throw new Error("Only admin can delete clan");
   }
 
-  // Remove clan reference from all users
   await User.updateMany({ clan: clanId }, { $unset: { clan: "" } });
-
   await Clan.deleteOne({ _id: clanId });
 
   return { message: "Clan deleted successfully" };
 }
+
 async function addMembers(adminId, clanId, userIds) {
   if (!Array.isArray(userIds) || userIds.length === 0) {
     throw new Error("userIds must be a non-empty array");
@@ -155,19 +132,18 @@ async function addMembers(adminId, clanId, userIds) {
   }
 
   const users = await User.find({ _id: { $in: userIds } });
-
   for (const user of users) {
-    if (user.clan) continue; // skip already in clan
+    if (user.clan) continue;
     user.clan = clanId;
     await user.save();
   }
 
   return { message: "Members added successfully" };
 }
+
 async function leaveClan(userId) {
   const user = await User.findById(userId);
   if (!user) throw new Error("User not found");
-
   if (!user.clan) throw new Error("Not in any clan");
 
   const clan = await Clan.findById(user.clan);
@@ -182,6 +158,7 @@ async function leaveClan(userId) {
 
   return { message: "Left clan successfully" };
 }
+
 async function removeMember(adminId, clanId, userIdToRemove) {
   const clan = await Clan.findById(clanId);
   if (!clan) throw new Error("Clan not found");
@@ -206,6 +183,65 @@ async function removeMember(adminId, clanId, userIdToRemove) {
 
   return { message: "Member removed successfully" };
 }
+
+async function getAllClans() {
+  const clans = await Clan.find({}).populate("admin", "username").lean();
+
+  const memberCounts = await User.aggregate([
+    { $match: { clan: { $ne: null } } },
+    { $group: { _id: "$clan", count: { $sum: 1 } } },
+  ]);
+
+  const countMap = {};
+  memberCounts.forEach((c) => {
+    countMap[c._id.toString()] = c.count;
+  });
+
+  return clans.map((clan) => ({
+    _id: clan._id,
+    name: clan.name,
+    description: clan.description,
+    admin: clan.admin,
+    memberCount: countMap[clan._id.toString()] || 1,
+    createdAt: clan.createdAt,
+  }));
+}
+
+async function getClanById(clanId, requestingUserId) {
+  const clan = await Clan.findById(clanId)
+    .populate("admin", "username totalXP")
+    .lean();
+  if (!clan) throw new Error("Clan not found");
+
+  const members = await User.find({ clan: clanId })
+    .select("username totalXP currentLevel completedLevels createdAt")
+    .sort({ totalXP: -1, createdAt: 1 })
+    .lean();
+
+  const rankedMembers = members.map((m, i) => ({ ...m, rank: i + 1 }));
+
+  return {
+    clan: {
+      _id: clan._id,
+      name: clan.name,
+      description: clan.description,
+      admin: clan.admin,
+      createdAt: clan.createdAt,
+    },
+    members: rankedMembers,
+    memberCount: rankedMembers.length,
+    isAdmin: clan.admin._id.toString() === requestingUserId.toString(),
+  };
+}
+
+async function getMyClan(userId) {
+  const user = await User.findById(userId).lean();
+  if (!user) throw new Error("User not found");
+  if (!user.clan) throw new Error("You are not in any clan");
+
+  return getClanById(user.clan.toString(), userId);
+}
+
 module.exports = {
   createClan,
   requestJoinClan,
@@ -216,4 +252,7 @@ module.exports = {
   addMembers,
   leaveClan,
   removeMember,
+  getAllClans,
+  getClanById,
+  getMyClan,
 };

@@ -121,6 +121,35 @@ async function addMembers(req, res) {
     res.status(400).json({ success: false, message: err.message });
   }
 }
+async function getAllClans(req, res) {
+  try {
+    const clans = await clanService.getAllClans();
+    res.status(200).json({ success: true, clans });
+  } catch (err) {
+    res.status(500).json({ success: false, message: err.message });
+  }
+}
+
+async function getMyClan(req, res) {
+  try {
+    const userId = req.user.userId;
+    const data = await clanService.getMyClan(userId);
+    res.status(200).json({ success: true, ...data });
+  } catch (err) {
+    res.status(400).json({ success: false, message: err.message });
+  }
+}
+
+async function getClan(req, res) {
+  try {
+    const { clanId } = req.params;
+    const userId = req.user.userId;
+    const data = await clanService.getClanById(clanId, userId);
+    res.status(200).json({ success: true, ...data });
+  } catch (err) {
+    res.status(400).json({ success: false, message: err.message });
+  }
+}
 module.exports = {
   createClan,
   requestJoin,
@@ -131,4 +160,7 @@ module.exports = {
   addMembers,
   leaveClan,
   removeMember,
+  getAllClans,
+  getMyClan,
+  getClan,
 };
