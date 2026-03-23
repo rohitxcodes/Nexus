@@ -38,14 +38,13 @@ const Landing = () => {
                 }}
             >
                 <Nav />
-                <div className='py-10'>
-                    <div className='body pl-2 gap-20 '>
-
+                <div className=''>
+                    <div className='body gap-20 '>
                         <div className='flex gap-50'>
                             <Link to="/login">
-                                <div className='buttons flex items-center gap-10 ml-240 mt-55'
+                                <div className='buttons flex items-center gap-10'
                                     style={{
-                                        transform: "scale(0.8)", // 🔽 decrease size
+                                        transform: "scale(0.8) translate(43vw, 30vh)",
                                         transformOrigin: "left center", // keeps position stable
                                     }}>
                                     <p className='text-center -tracking-tighter'>Get Started</p>
@@ -53,12 +52,9 @@ const Landing = () => {
                                 </div>
                             </Link>
                         </div>
-
                     </div>
-
                 </div>
             </div>
-
         </div>
     )
 }

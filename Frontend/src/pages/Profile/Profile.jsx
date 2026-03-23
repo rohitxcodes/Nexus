@@ -89,7 +89,7 @@ const Profile = () => {
         }}
       />
       <div className="h-screen bg-cover bg-center " style={{ backgroundImage: "url('/profile bg.png')" }}>
-        <div className="h-[400px] flex gap-60 items-center">
+        <div className="h-[400px] flex gap-6npm 0 items-center">
           <div className="h-[450px] w-[450px] translate-x-[100px] pl-20  translate-y-[250px] overflow-hidden rounded-xl">
             <img
               onClick={handleclick}

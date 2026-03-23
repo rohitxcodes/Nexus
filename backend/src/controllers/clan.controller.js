@@ -12,7 +12,32 @@ async function createClan(req, res) {
     res.status(400).json({ success: false, message: err.message });
   }
 }
+async function leaveClan(req, res) {
+  try {
+    const userId = req.user.userId;
 
+    const result = await clanService.leaveClan(userId);
+    res.status(200).json({ success: true, ...result });
+  } catch (err) {
+    res.status(400).json({ success: false, message: err.message });
+  }
+}
+async function removeMember(req, res) {
+  try {
+    const { clanId, userIdToRemove } = req.body;
+    const adminId = req.user.userId;
+
+    const result = await clanService.removeMember(
+      adminId,
+      clanId,
+      userIdToRemove,
+    );
+
+    res.status(200).json({ success: true, ...result });
+  } catch (err) {
+    res.status(400).json({ success: false, message: err.message });
+  }
+}
 async function requestJoin(req, res) {
   try {
     const { clanId } = req.body;
@@ -84,7 +109,18 @@ async function deleteClan(req, res) {
     res.status(400).json({ success: false, message: err.message });
   }
 }
+async function addMembers(req, res) {
+  try {
+    const { clanId, userIds } = req.body; // array of userIds
+    const adminId = req.user.userId;
 
+    const result = await clanService.addMembers(adminId, clanId, userIds);
+
+    res.status(200).json({ success: true, ...result });
+  } catch (err) {
+    res.status(400).json({ success: false, message: err.message });
+  }
+}
 module.exports = {
   createClan,
   requestJoin,
@@ -92,4 +128,7 @@ module.exports = {
   rejectRequest,
   getPendingRequests,
   deleteClan,
+  addMembers,
+  leaveClan,
+  removeMember,
 };

@@ -1,4 +1,3 @@
-
 import React, { useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { gsap } from "gsap";
@@ -15,9 +14,26 @@ export default function BounceIcons() {
     ["/icon.png", "/icon.png", "/icon.png", "/icon.png", "/icon.png"],
     ["/icon.png", "/icon.png", "/icon.png", "/icon.png", "/icon.png"],
     ["/icon.png", "/icon.png", "/icon.png", "/icon.png", "/icon.png"],
+    ["/icon.png", "/icon.png", "/icon.png", "/icon.png", "/icon.png"],
+    ["/icon.png", "/icon.png", "/icon.png", "/icon.png", "/icon.png"],
+    ["/icon.png", "/icon.png", "/icon.png", "/icon.png", "/icon.png"],
+    ["/icon.png", "/icon.png", "/icon.png", "/icon.png", "/icon.png"],
+    ["/icon.png", "/icon.png", "/icon.png", "/icon.png", "/icon.png"],
+    ["/icon.png", "/icon.png", "/icon.png", "/icon.png", "/icon.png"],
+    ["/icon.png", "/icon.png", "/icon.png", "/icon.png", "/icon.png"],
+    ["/icon.png", "/icon.png", "/icon.png", "/icon.png", "/icon.png"],
+    ["/icon.png", "/icon.png", "/icon.png", "/icon.png", "/icon.png"],
+    ["/icon.png", "/icon.png", "/icon.png", "/icon.png", "/icon.png"],
+    ["/icon.png", "/icon.png", "/icon.png", "/icon.png", "/icon.png"],
+    ["/icon.png", "/icon.png", "/icon.png", "/icon.png", "/icon.png"],
+    ["/icon.png", "/icon.png", "/icon.png", "/icon.png", "/icon.png"],
+    ["/icon.png", "/icon.png", "/icon.png", "/icon.png", "/icon.png"],
+    ["/icon.png", "/icon.png", "/icon.png", "/icon.png", "/icon.png"],
+    ["/icon.png", "/icon.png", "/icon.png", "/icon.png", "/icon.png"],
+    ["/icon.png", "/icon.png", "/icon.png", "/icon.png", "/icon.png"],
   ];
 
-  // CHANGED: Made values positive so the islands zig-zag to the RIGHT, 
+  // CHANGED: Made values positive so the islands zig-zag to the RIGHT,
   // keeping them away from the left sidebar.
   const transforms = [
     "translateX(250px)",
@@ -28,34 +44,34 @@ export default function BounceIcons() {
   ];
 
   useEffect(() => {
-    const validSections = sectionsRef.current.filter(Boolean);
-    
-    validSections.forEach((section) => {
-      const items = section.querySelectorAll(".animate-item");
+    const ctx = gsap.context(() => {
+      const validSections = sectionsRef.current.filter(Boolean);
 
-      gsap.fromTo(
-        items,
-        { opacity: 0, y: 100, scale: 0.5 },
-        {
-          opacity: 1,
-          y: 0,
-          scale: 1,
-          duration: 0.8,
-          stagger: 0.15,
-          ease: "back.out(1.7)",
-          scrollTrigger: {
-            trigger: section,
-            start: "top 80%",
-            end: "top 30%",
-            toggleActions: "play none none reverse",
+      validSections.forEach((section) => {
+        const items = section.querySelectorAll(".animate-item");
+
+        gsap.fromTo(
+          items,
+          { opacity: 0, y: 100, scale: 0.5 },
+          {
+            opacity: 1,
+            y: 0,
+            scale: 1,
+            duration: 0.6,
+            stagger: 0.1,
+            ease: "power3.out",
+            scrollTrigger: {
+              trigger: section,
+              start: "top 85%",
+              toggleActions: "play none none reverse",
+            },
           },
-        }
-      );
+        );
+      });
     });
 
-    return () => ScrollTrigger.getAll().forEach((t) => t.kill());
+    return () => ctx.revert();
   }, []);
-
   return (
     <div className="min-h-screen overflow-x-hidden! overflow-y-hidden bg-blue-50/10">
       {iconSets.map((icons, sectionIndex) => (
@@ -71,10 +87,9 @@ export default function BounceIcons() {
               1. items-center -> items-start (moves content to the left)
               2. Added pl-8 lg:pl-16 to give it breathing room from the sidebar 
           */}
-          <div className="flex flex-col items-start flex-1 gap-6 z-10 py-5 pl-8 lg:pl-30">
-            
+          <div className="flex flex-col items-start flex-1 gap-6 z-10 py-3 pl-8 lg:pl-30">
             {/* section header */}
-            <div className="animate-item w-full max-w-[600px] bg-[#2937fa] rounded-xl px-6 py-3 shadow-[0_8px_0_#063e99] mb-5 flex items-center">
+            <div className="animate-item w-full max-w-[600px] bg-[#2937fa] rounded-xl px-9 py-3 shadow-[0_8px_0_#063e99] mb-5 flex items-center">
               <span className="text-xl text-white/40 font-bold mr-4">--</span>
               <div className="text-lg font-bold text-blue-200">
                 SECTION {sectionIndex + 1}
@@ -115,22 +130,24 @@ export default function BounceIcons() {
 
                   {/* KNIGHT CONTAINER */}
                   {isThirdIcon && (
-                    <div 
+                    <div
                       className="animate-item absolute left-[300px] top-[0%] cursor-pointer"
                       style={{
+                        transform: `translate(${transforms[iconIndex] + 180}px, 0px)`,
                         filter: "drop-shadow(0px 15px 10px rgba(0,0,0,0.5))",
                       }}
+                      onClick={() => navigate(`/profile`)}
                       onMouseEnter={(e) =>
                         gsap.to(e.currentTarget, { scale: 1.2, duration: 0.3 })
                       }
                       onMouseLeave={(e) =>
                         gsap.to(e.currentTarget, { scale: 1, duration: 0.3 })
-                      } 
+                      }
                     >
                       <img
-                        src="/knight.png"
-                        className="w-[150px] max-w-none translate-y-0 translate-x-5"
-                        alt="Knight"
+                        src="/samurai.png"
+                        className="w-[200px] max-w-none translate-y-0 translate-x-5"
+                        alt="Samurai"
                       />
                     </div>
                   )}

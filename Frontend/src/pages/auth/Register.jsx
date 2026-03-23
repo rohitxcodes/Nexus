@@ -55,18 +55,22 @@ const Register = () => {
   return (
     <div
       className="min-h-screen flex items-center justify-center"
-      style={{
-        background: "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
-        padding: "20px",
-      }}
+      
     >
-      <Snowfall color="#82C3D9"/>
-      <div className="bg-white rounded-2xl shadow-2xl p-8 w-full max-w-md">
+      <video
+        className="fixed inset-0 w-full h-full object-cover -z-10"
+        autoPlay
+        loop
+        muted
+        playsInline
+        src="/gg.mp4"
+      />
+      <div className="bg-[#51E4D0] rounded-2xl shadow-2xl p-8 w-full max-w-md">
         <div className="text-center mb-6">
           <h1 className="text-3xl font-bold text-gray-800 mb-2">
-            Register for Nexus
+            Register for Code Quest
           </h1>
-          <p className="text-gray-600">Create your account to get started</p>
+          <p className="text-blue-600">Create your account to get started</p>
         </div>
 
         {error && (
@@ -89,7 +93,8 @@ const Register = () => {
               name="username"
               value={formData.username}
               onChange={handleChange}
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+              autoComplete="off"
+              className="w-full px-4 py-2 font-sans bg-[#00A2FF] border border-gray-300 rounded-2xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
               required
             />
           </div>
@@ -107,7 +112,8 @@ const Register = () => {
               name="email"
               value={formData.email}
               onChange={handleChange}
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+              autoComplete="off"
+              className="w-full px-4 py-2 font-sans bg-[#00A2FF] border border-gray-300 rounded-2xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
               required
             />
           </div>
@@ -125,7 +131,8 @@ const Register = () => {
               name="password"
               value={formData.password}
               onChange={handleChange}
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+              autoComplete="new-password"
+              className="w-full px-4 py-2 font-sans bg-[#00A2FF] border border-gray-300 rounded-2xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
               required
               minLength="6"
             />
@@ -144,7 +151,8 @@ const Register = () => {
               name="confirmPassword"
               value={formData.confirmPassword}
               onChange={handleChange}
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+              autoComplete="off"
+              className="w-full px-4 py-2 font-sans bg-[#00A2FF] border border-gray-300 rounded-2xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
               required
             />
           </div>
@@ -152,7 +160,7 @@ const Register = () => {
           <button
             type="submit"
             disabled={loading}
-            className="w-full bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-colors"
+            className="w-full bg-blue-600 text-white py-2 px-4 rounded-4xl hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-colors"
           >
             {loading ? "Creating Account..." : "Create Account"}
           </button>
