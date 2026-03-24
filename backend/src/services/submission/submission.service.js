@@ -8,6 +8,7 @@ const { buildWrappedCode } = require("./submission.service.wrapper");
 const { executeCode } = require("./submission.service.client");
 const { evaluateSubmission } = require("./submission.service.evaluator");
 const { grantXPIfEligible } = require("./submission.service.xp.handler");
+const { advanceLevel } = require("../progression.service");
 
 async function persistSubmission(frontendInput) {
   const { userId, levelNumber, language, code } = frontendInput;
@@ -60,6 +61,7 @@ async function persistSubmission(frontendInput) {
       levelNumber,
       problem.xpReward ?? 30,
     );
+    await advanceLevel(userId, levelNumber);
   }
 
   return {

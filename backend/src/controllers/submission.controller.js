@@ -3,15 +3,6 @@ const Problem = require("../models/problem.model");
 const levelService = require("../services/level.service");
 const User = require("../models/user.model");
 const submissionService = require("../services/submission/submission.service");
-// const mongoose = require("mongoose");
-
-// console.log("Connected DB Name:", mongoose.connection.name);
-// console.log("Problem collection:", Problem.collection.name);
-
-// const test = async () => {
-//   const count = await Problem.countDocuments();
-//   console.log("Total problem docs:", count);
-// };
 
 async function createSubmission(req, res) {
   console.log("REQ.USER:", req.user);
