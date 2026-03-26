@@ -19,7 +19,7 @@ const matchSchema = new mongoose.Schema(
     },
     status: {
       type: String,
-      enum: ["PENDING", "ONGOING", "COMPLETED"],
+      enum: ["PENDING", "ONGOING", "COMPLETED", "CANCELLED"],
       default: "PENDING",
     },
     winnerId: {

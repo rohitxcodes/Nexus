@@ -10,6 +10,7 @@ const healthRouter = require("./routes/health.routes");
 const leaderboardRouter = require("./routes/leaderbord.global.routes");
 const clanRoutes = require("./routes/clan.routes");
 const chatRoutes = require("./routes/chat.routes");
+const matchRoutes = require("./routes/match.routes");
 const app = express();
 
 const allowedOrigins = [
@@ -51,4 +52,5 @@ app.use("/health", healthRouter);
 app.use("/api/leaderboard", leaderboardRouter);
 app.use("/api/clans", clanRoutes);
 app.use("/api/chat", chatRoutes);
+app.use("/api/matches", matchRoutes);
 module.exports = app;
