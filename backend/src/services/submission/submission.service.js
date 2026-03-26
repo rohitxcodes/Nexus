@@ -42,11 +42,9 @@ async function persistSubmission(frontendInput) {
   let xpEarned = 0;
 
   if (evaluation.verdict === "ACCEPTED") {
-    xpEarned = await grantXPIfEligible(
-      userId,
-      levelNumber,
-      problem.xpReward ?? 30,
-    );
+    const XP_BY_DIFFICULTY = { Easy: 30, Medium: 60, Hard: 100 };
+    const xpAmount = XP_BY_DIFFICULTY[problem.difficulty] ?? 30;
+    xpEarned = await grantXPIfEligible(userId, levelNumber, xpAmount);
     await advanceLevel(userId, levelNumber);
 
     // Fetch updated user state AFTER XP and level update
