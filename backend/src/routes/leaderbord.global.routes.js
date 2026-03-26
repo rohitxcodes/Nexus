@@ -10,5 +10,10 @@ router.get(
   authMiddleware,
   leaderboardController.getLeaderboardOverview,
 );
+router.get(
+  "/clan/:clanId",
+  authMiddleware,
+  leaderboardController.getClanLeaderboard,
+);
 
 module.exports = router;
