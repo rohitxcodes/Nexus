@@ -12,6 +12,7 @@ const clanRoutes = require("./routes/clan.routes");
 const chatRoutes = require("./routes/chat.routes");
 const matchRoutes = require("./routes/match.routes");
 const shopRoutes = require("./routes/shop.routes");
+const trophyRoutes = require("./routes/trophy.routes");
 const app = express();
 
 const allowedOrigins = [
@@ -55,4 +56,5 @@ app.use("/api/clans", clanRoutes);
 app.use("/api/chat", chatRoutes);
 app.use("/api/matches", matchRoutes);
 app.use("/api/shop", shopRoutes);
+app.use("/api/trophies", trophyRoutes);
 module.exports = app;

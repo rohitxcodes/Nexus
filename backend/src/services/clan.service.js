@@ -1,5 +1,6 @@
 const Clan = require("../models/clan.model");
 const User = require("../models/user.model");
+const { checkClanTrophy } = require("./trophy.service");
 
 async function createClan(userId, name, description) {
   const user = await User.findById(userId);
@@ -13,6 +14,9 @@ async function createClan(userId, name, description) {
 
   user.clan = clan._id;
   await user.save();
+
+  // Award CLAN_LEADER trophy
+  await checkClanTrophy(userId);
 
   return clan;
 }
