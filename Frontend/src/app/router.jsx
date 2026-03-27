@@ -11,7 +11,9 @@ import ProblemPage from "../features/problem_solving/pages/ProblemPage";
 import Shop from "../pages/Shop/Shop";
 import Profile from "../pages/Profile/Profile";
 import PublicRoute from "../components/common/PublicRoute";
-
+import Clan from "../pages/Clan/Clan";
+import OneVsOne from "../pages/Game/OneVsOne";
+import AboutUs from "../pages/AboutUs/Aboutus";
 import ProtectedRoute from "../components/common/ProtectedRoute";
 
 const router = createBrowserRouter([
