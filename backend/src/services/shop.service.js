@@ -1,11 +1,13 @@
 const User = require("../models/user.model");
 const Problem = require("../models/problem.model");
+const Level = require("../models/level.model");
 const ai = require("../config/gemini");
 
-const HINT_COST = 50; // XP
-const DEBUG_COST = 75; // XP
+const HINT_COST = 50;
+const DEBUG_COST = 75;
+const DOUBLE_XP_COST = 75;
+const SKIP_LEVEL_COST = 100;
 
-// ── Shared: deduct XP from user ───────────────────────────────
 async function deductXP(userId, amount) {
   const user = await User.findById(userId);
   if (!user) throw new Error("User not found");
@@ -14,24 +16,19 @@ async function deductXP(userId, amount) {
       `Not enough XP. You need ${amount} XP but have ${user.totalXP}`,
     );
   }
-
   user.totalXP -= amount;
   await user.save();
-
-  return user.totalXP; // return updated balance
+  return user.totalXP;
 }
 
-// ── Shared: call Gemini
 async function callGemini(prompt) {
   const response = await ai.models.generateContent({
-    model: "gemini-3-flash-preview",
+    model: "gemini-2.0-flash",
     contents: prompt,
   });
   return response.text;
 }
 
-// ── AI Hint
-// Costs 50 XP — gives a nudge without revealing the solution
 async function getHint(userId, problemId) {
   const problem = await Problem.findById(problemId).lean();
   if (!problem) throw new Error("Problem not found");
@@ -40,29 +37,20 @@ async function getHint(userId, problemId) {
 
   const prompt = `
 You are a DSA tutor helping a student solve a coding problem.
-
 Problem Title: ${problem.title}
 Difficulty: ${problem.difficulty}
 Problem Description: ${problem.description}
-
-Give ONE short, helpful hint that nudges the student in the right direction.
+Give ONE short helpful hint without revealing the solution.
 Rules:
-- Do NOT reveal the solution or write any code
+- Do NOT write any code
 - Keep it under 3 sentences
 - Focus on the approach or data structure to use
 `;
 
   const hint = await callGemini(prompt);
-
-  return {
-    hint,
-    xpDeducted: HINT_COST,
-    remainingXP,
-  };
+  return { hint, xpDeducted: HINT_COST, remainingXP };
 }
 
-// ── AI Debug
-// Costs 75 XP — explains what's wrong with current code
 async function debugCode(userId, problemId, code, language) {
   if (!code || !code.trim()) throw new Error("Code cannot be empty");
   if (!language) throw new Error("Language is required");
@@ -74,33 +62,99 @@ async function debugCode(userId, problemId, code, language) {
 
   const prompt = `
 You are a DSA tutor reviewing a student's code.
-
 Problem Title: ${problem.title}
-Difficulty: ${problem.difficulty}  
+Difficulty: ${problem.difficulty}
 Problem Description: ${problem.description}
-
 Student's ${language} code:
 \`\`\`${language}
 ${code}
 \`\`\`
-
-Analyze the code and explain:
-1. What is wrong or what edge cases are being missed
+Analyze and explain:
+1. What is wrong or what edge cases are missed
 2. What concept or approach they should reconsider
-
 Rules:
-- Do NOT rewrite the solution or give the correct code
-- Keep the explanation under 5 sentences
-- Be specific about what's wrong in their code
+- Do NOT rewrite the solution or give correct code
+- Keep it under 5 sentences
+- Be specific about what's wrong
 `;
 
   const debug = await callGemini(prompt);
+  return { debug, xpDeducted: DEBUG_COST, remainingXP };
+}
+
+async function buyDoubleXP(userId) {
+  const user = await User.findById(userId);
+  if (!user) throw new Error("User not found");
+  if (user.totalXP < DOUBLE_XP_COST) {
+    throw new Error(
+      `Not enough XP. You need ${DOUBLE_XP_COST} XP but have ${user.totalXP}`,
+    );
+  }
+
+  user.totalXP -= DOUBLE_XP_COST;
+  user.doubleXPRoundsLeft = (user.doubleXPRoundsLeft || 0) + 2;
+  await user.save();
 
   return {
-    debug,
-    xpDeducted: DEBUG_COST,
-    remainingXP,
+    message: "Double XP activated for 2 rounds",
+    doubleXPRoundsLeft: user.doubleXPRoundsLeft,
+    remainingXP: user.totalXP,
   };
 }
 
-module.exports = { getHint, debugCode };
+async function skipLevel(userId) {
+  const user = await User.findById(userId);
+  if (!user) throw new Error("User not found");
+  if (user.totalXP < SKIP_LEVEL_COST) {
+    throw new Error(
+      `Not enough XP. You need ${SKIP_LEVEL_COST} XP but have ${user.totalXP}`,
+    );
+  }
+
+  const levelToSkip = user.currentLevel;
+
+  if (user.completedLevels.includes(levelToSkip)) {
+    throw new Error("Current level is already completed");
+  }
+
+  const level = await Level.findOne({ levelNumber: levelToSkip });
+  if (!level) throw new Error("Level not found");
+
+  user.totalXP -= SKIP_LEVEL_COST;
+  user.completedLevels.push(levelToSkip);
+  if (!user.skippedLevels) user.skippedLevels = [];
+  user.skippedLevels.push(levelToSkip);
+  user.currentLevel = levelToSkip + 1;
+  await user.save();
+
+  return {
+    message: `Level ${levelToSkip} skipped`,
+    skippedLevel: levelToSkip,
+    newCurrentLevel: user.currentLevel,
+    remainingXP: user.totalXP,
+  };
+}
+
+async function getCashBalance(userId) {
+  const user = await User.findById(userId).select("cash").lean();
+  if (!user) throw new Error("User not found");
+  return { cash: user.cash || 0 };
+}
+
+async function addCash(userId, amount) {
+  if (!amount || amount <= 0) throw new Error("Invalid cash amount");
+  const user = await User.findById(userId);
+  if (!user) throw new Error("User not found");
+  user.cash = (user.cash || 0) + amount;
+  await user.save();
+  return { message: `${amount} cash added`, cash: user.cash };
+}
+
+module.exports = {
+  getHint,
+  debugCode,
+  buyDoubleXP,
+  skipLevel,
+  getCashBalance,
+  addCash,
+};

@@ -23,7 +23,7 @@ const userSchema = new mongoose.Schema(
     totalXP: {
       type: Number,
       default: 0,
-      min: 0, // prevent negative XP
+      min: 0,
     },
     currentLevel: {
       type: Number,
@@ -38,6 +38,20 @@ const userSchema = new mongoose.Schema(
       type: mongoose.Schema.Types.ObjectId,
       ref: "Clan",
       default: null,
+    },
+    doubleXPRoundsLeft: {
+      type: Number,
+      default: 0,
+      min: 0,
+    },
+    cash: {
+      type: Number,
+      default: 0,
+      min: 0,
+    },
+    skippedLevels: {
+      type: [Number],
+      default: [],
     },
   },
   { timestamps: true },
