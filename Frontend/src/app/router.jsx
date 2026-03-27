@@ -11,6 +11,7 @@ import ProblemPage from "../features/problem_solving/pages/ProblemPage";
 import Shop from "../pages/Shop/Shop";
 import Profile from "../pages/Profile/Profile";
 import PublicRoute from "../components/common/PublicRoute";
+import Aboutus from "../pages/AboutUs/aboutus";
 
 import ProtectedRoute from "../components/common/ProtectedRoute";
 
@@ -30,6 +31,14 @@ const router = createBrowserRouter([
     element: (
       <PublicRoute>
         <Register />
+      </PublicRoute>
+    ),
+  },
+  {
+    path: "/aboutUs",
+    element: (
+      <PublicRoute>
+        <Aboutus />
       </PublicRoute>
     ),
   },

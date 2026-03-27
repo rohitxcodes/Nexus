@@ -19,7 +19,7 @@ const Nav = () => {
             <Link to="/train">
               <p style={{ cursor: "pointer" }}>Practice</p>
             </Link>
-            <Link to="/train">
+            <Link to="/aboutUs">
               <p style={{ cursor: "pointer" }}>About</p>
             </Link>
             <Link to="/Shop">
