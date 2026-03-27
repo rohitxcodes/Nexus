@@ -1,13 +1,11 @@
 import React from "react";
 
-function AboutUs() {
+export default function OneVsOne() {
   return (
     <div>
       <h1>
-        <p>aboutUs</p>
+        <p>One Vs One</p>
       </h1>
     </div>
   );
 }
-
-export default AboutUs;

@@ -18,6 +18,10 @@ const router = createBrowserRouter([
   // PUBLIC ROUTES
   { path: "/", element: <Landing /> },
   {
+    path: "/aboutUs",
+    element: <AboutUs />,
+  },
+  {
     path: "/login",
     element: (
       <PublicRoute>
@@ -30,14 +34,6 @@ const router = createBrowserRouter([
     element: (
       <PublicRoute>
         <Register />
-      </PublicRoute>
-    ),
-  },
-  {
-    path: "/aboutUs",
-    element: (
-      <PublicRoute>
-        <Aboutus />
       </PublicRoute>
     ),
   },
@@ -96,6 +92,22 @@ const router = createBrowserRouter([
     element: (
       <ProtectedRoute>
         <Profile />
+      </ProtectedRoute>
+    ),
+  },
+  {
+    path: "/clan",
+    element: (
+      <ProtectedRoute>
+        <Clan />
+      </ProtectedRoute>
+    ),
+  },
+  {
+    path: "/1v1",
+    element: (
+      <ProtectedRoute>
+        <OneVsOne />
       </ProtectedRoute>
     ),
   },
