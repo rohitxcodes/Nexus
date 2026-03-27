@@ -1,13 +1,13 @@
 import React from "react";
 
-function AboutUs() {
+function Clan() {
   return (
     <div>
       <h1>
-        <p>aboutUs</p>
+        <p>Clan</p>
       </h1>
     </div>
   );
 }
 
-export default AboutUs;
+export default Clan;
