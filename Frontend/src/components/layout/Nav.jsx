@@ -9,7 +9,7 @@ const Nav = () => {
         <div className="nav flex gap-50 z-1 text-amber-50">
           <div className="logo py-5">
             <Link to="/">
-              <img className="h-20" src="/logo.png" alt="" />
+              <img className="h-14" src="/logo.png" alt="" />
             </Link>
           </div>
           <div className="nav-buttons flex gap-10 py-10 px-10">
@@ -26,7 +26,10 @@ const Nav = () => {
               <p style={{ cursor: "pointer" }}>Shop</p>
             </Link>
 
-            <Link to="/profile" style={{ display: "flex", alignItems: "center" }}>
+            <Link
+              to="/profile"
+              style={{ display: "flex", alignItems: "center" }}
+            >
               <FaUserCircle size={26} />
             </Link>
           </div>
