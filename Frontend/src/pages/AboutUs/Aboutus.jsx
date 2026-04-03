@@ -1,181 +1,231 @@
 import React from "react";
-
-const teamMembers = [
-  { 
-    name: 'Om Aditya', 
-    role: 'Senior Frontend Engineer', 
-    color: '#4C4C9D',
-    image: 'om.jpg',
-    socials: { github: '#', linkedin: '#', email: 'mailto:om@gmail.com' }
-  },
-  { 
-    name: 'Sujan Sahoo', 
-    role: 'Junior Frontend Engineer', 
-    color: '#5E5E32',
-    image: 'sujan.jpg',
-    socials: { github: '#', linkedin: '#', email: 'mailto:sujansahoo27@gmail.com' }
-  },
-  { 
-    name: 'Rohit Kumar', 
-    role: 'Software Backend Engineer', 
-    color: '#007A99',
-    image: 'rohit.jpg',
-    socials: { github: '#', linkedin: '#', email: 'mailto:om@gmail.com' }
-  },
-  { 
-    name: 'Onkar Raj', 
-    role: 'Junior Backend Engineer', 
-    color: '#6B2D82',
-    image: 'onkar.jpg',
-    socials: { github: '#', linkedin: '#', email: 'mailto:om@gmail.com' }
-  }
-];
-
-// Pixel-art SVG Icons
-const Icons = {
-  github: (
-    <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor">
-      <path d="M12 2H4v2H2v8h2v2h2v2h2v2h8v-2h2v-2h2v-2h2V4h-2V2h-8v2h-2V2zm6 4v6h-2v2h-2v2h-4v-2H8v-2H6V6h12z" />
-    </svg>
-  ),
-  linkedin: (
-    <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor">
-      <path d="M4 2h4v4H4V2zm0 6h4v14H4V8zm6 0h4v2h2c1-1 2-2 4-2 3 0 5 2 5 6v8h-4v-7c0-2-1-3-3-3s-3 1-3 3v7h-4V8z" />
-    </svg>
-  ),
-  email: (
-    <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor">
-      <path d="M2 4h20v2H2V4zm0 4h2v2h2v2h2v2h4v-2h2v-2h2v-2h2v12H2V8zm4 4v2h2v-2H6zm10 0v2h2v-2h-2z" />
-    </svg>
-  )
-};
+import Navbar from "../../components/layout/Nav";
+import Rohit from "../../../public/avtar.png";
 
 function AboutUs() {
+  const teamMembers = [
+    {
+      name: "Om Aditya",
+      role: "Senior Frontend Engineer",
+      color: "#4C4C9D",
+      image: "om.jpg",
+      socials: {
+        github: "https://github.com/omaditya073-wq",
+        linkedin: "https://www.linkedin.com/in/om-aditya-pattnaik-184ab12a7/",
+        email: "mailto:omaditya073@gmail.com ",
+      },
+    },
+    {
+      name: "Sujan Sahoo",
+      role: "Junior Frontend Engineer",
+      color: "#5E5E32",
+      image: "sujan.jpg",
+      socials: {
+        github: "https://github.com/Sujan-Xs",
+        linkedin: "https://www.linkedin.com/in/sujan-sahoo/",
+        email: "mailto:sujansahoo27@gmail.com",
+      },
+    },
+    {
+      name: "Rohit Kumar",
+      role: "Software Backend Engineer",
+      color: "#007A99",
+      image: Rohit,
+      socials: {
+        github: "https://github.com/rohitxcodes",
+        linkedin: "www.linkedin.com/in/hixrohit",
+        email: "mailto:rohitvis695@gmail.com",
+      },
+    },
+    {
+      name: "Onkar Raj",
+      role: "Junior Backend Engineer",
+      color: "#6B2D82",
+      image: "onkar.jpg",
+      socials: {
+        github: "https://github.com/ONKARAJ",
+        linkedin: "https://www.linkedin.com/in/onkar-raj-8a416334b/",
+        email: "mailto:onkarraj976@gmail.com ",
+      },
+    },
+  ];
+  const Icons = {
+    github: (
+      <img
+        src="../../../public/github.svg" // your image path
+        alt="GitHub"
+        className="w-[18px] h-[18px] object-contain"
+      />
+    ),
+    linkedin: (
+      <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor">
+        <path d="M4 2h4v4H4V2zm0 6h4v14H4V8zm6 0h4v2h2c1-1 2-2 4-2 3 0 5 2 5 6v8h-4v-7c0-2-1-3-3-3s-3 1-3 3v7h-4V8z" />
+      </svg>
+    ),
+    email: (
+      <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor">
+        <path d="M2 4h20v2H2V4zm0 4h2v2h2v2h2v2h4v-2h2v-2h2v-2h2v12H2V8zm4 4v2h2v-2H6zm10 0v2h2v-2h-2z" />
+      </svg>
+    ),
+  };
+
   return (
-    <section style={{ 
-      backgroundColor: '#0F1123', 
-      minHeight: '100vh', 
-      padding: '60px 20px', 
-      color: 'white', 
-      textAlign: 'center', 
-      fontFamily: '"ArcadeClassic", monospace' 
-    }}>
-      <style>
-        {`
-          @font-face {
-            font-family: 'ArcadeClassic';
-            src: url('/ARCADECLASSIC.TTF') format('truetype');
-            font-weight: normal;
-            font-style: normal;
-          }
-          
-          .pixel-font {
-            font-family: 'ArcadeClassic', sans-serif;
-            text-transform: uppercase;
-          }
+    <>
+      <Navbar />
+      <section className="relative min-h-screen px-5 py-10 text-white  md:py-14">
+        <div className="fixed inset-0 bg-[url('/aboutUs_bg.png')] bg-cover bg-center -z-10"></div>
 
-          .team-photo {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            image-rendering: pixelated;
-          }
+        <div className="relative mx-auto w-full max-w-screen-xl">
+          <h1 className="text-center text-3xl font-bold uppercase tracking-[0.25em] text-white sm:text-4xl md:text-5xl pt-11">
+            About Us
+          </h1>
 
-          .social-icon {
-            width: 32px;
-            height: 32px;
-            background-color: #2D2D44;
-            border: 2px solid #4A4A6A;
-            display: flex;
-            alignItems: center;
-            justify-content: center;
-            color: #A1A1C1;
-            transition: all 0.2s;
-            text-decoration: none;
-          }
+          <div className="relative mt-10 max-w-2xl mx-auto w-fit">
+            <div className="absolute inset-0 bg-gradient-to-r from-[#0F1123]/60 to-transparent rounded-xl"></div>
 
-          .social-icon:hover {
-            background-color: #4A4A6A;
-            color: white;
-            transform: translateY(-2px);
-            border-color: white;
-          }
-        `}
-      </style>
-
-      {/* Header Section */}
-      <h2 className="pixel-font" style={{ fontSize: '3rem', marginBottom: '1rem', letterSpacing: '4px' }}>
-        Meet The Team
-      </h2>
-      <p style={{ color: '#A1A1C1', maxWidth: '600px', margin: '0 auto 60px auto', lineHeight: '1.6', fontFamily: 'monospace' }}>
-        The folks behind Code Quest.<br />
-      </p>
-
-      {/* Team Grid */}
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: '40px', maxWidth: '1100px', margin: '0 auto' }}>
-        {teamMembers.map((member) => (
-          <div key={member.name} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-            
-            {/* The "Folder" Card */}
-            <div style={{ 
-              backgroundColor: '#D9D9C3', 
-              padding: '20px 12px 8px 12px', 
-              position: 'relative', 
-              borderRight: '6px solid rgba(0,0,0,0.2)', 
-              borderBottom: '6px solid rgba(0,0,0,0.2)',
-              width: '180px'
-            }}>
-              {/* Profile Image Box */}
-              <div style={{ 
-                backgroundColor: member.color, 
-                height: '160px', 
-                border: '4px solid #2D2D2D',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                overflow: 'hidden'
-              }}>
-                {member.image ? (
-                  <img src={member.image} alt={member.name} className="team-photo" />
-                ) : (
-                  <div style={{ fontSize: '60px' }}>👤</div>
-                )}
-              </div>
-
-              {/* Name Tag */}
-              <div style={{ display: 'flex', alignItems: 'center', padding: '12px 0 5px 0', gap: '8px' }}>
-                <div style={{ 
-                  width: '10px', height: '10px', backgroundColor: '#FF4136', 
-                  borderRadius: '50%', boxShadow: '0 0 10px #FF4136', border: '1px solid #700'
-                }} />
-                <span className="pixel-font" style={{ color: '#2D2D2D', fontSize: '1rem', whiteSpace: 'nowrap' }}>
-                  {member.name.split(' ')[0]}
-                </span>
-              </div>
-            </div>
-
-            {/* Role Label */}
-            <p style={{ marginTop: '15px', fontSize: '0.9rem', fontWeight: '500', opacity: 0.9 }}>
-              {member.role}
+            <p className="relative rounded-xl p-6 text-sm leading-relaxed text-white/85 backdrop-blur-md md:text-base ">
+              At Code Quest, we pioneer a new era of learning, blending the
+              timeless honor and challenge of medieval quests with innovative
+              educational adventures.
             </p>
-            
-            {/* Social Icons Section */}
-            <div style={{ display: 'flex', gap: '10px', marginTop: '12px' }}>
-              <a href={member.socials.github} className="social-icon" title="GitHub">
-                {Icons.github}
-              </a>
-              <a href={member.socials.linkedin} className="social-icon" title="LinkedIn">
-                {Icons.linkedin}
-              </a>
-              <a href={member.socials.email} className="social-icon" title="Email">
-                {Icons.email}
-              </a>
+          </div>
+
+          <div className="mt-12 grid gap-6 md:grid-cols-2">
+            <div className="relative overflow-hidden rounded-xl border border-white/10 shadow-lg">
+              <div className="absolute inset-0 bg-gradient-to-r from-[#0F1123]/60 to-transparent"></div>
+              <div className="relative">
+                <h2 className="w-full bg-white/10 px-6 py-3 text-xl font-semibold text-white md:text-2xl backdrop-blur-sm">
+                  Who We Are
+                </h2>
+                <div className="p-5 md:p-6">
+                  <p className="text-sm leading-relaxed text-white/85 md:text-base">
+                    Code Quest is a dynamic educational platform designed for
+                    the future, where learning is an epic quest. Our platform
+                    transforms coding and problem-solving education into
+                    immersive medieval adventures, making smart learning
+                    engaging and fun.
+                  </p>
+                </div>
+              </div>
             </div>
 
+            <div className="relative overflow-hidden rounded-xl border border-white/10 shadow-lg">
+              <div className="absolute inset-0 bg-gradient-to-r from-[#0F1123]/60 to-transparent"></div>
+
+              <div className="relative">
+                <h2 className="w-full bg-white/10 px-6 py-3 text-xl font-semibold text-white md:text-2xl backdrop-blur-sm">
+                  Our Mission
+                </h2>
+
+                <div className="p-5 md:p-6">
+                  <p className="text-sm leading-relaxed text-white/85 md:text-base">
+                    Our mission is to empower learners with future-ready skills
+                    through a gamified learning experience. By turning education
+                    into an adventurous quest, we prepare learners to thrive in
+                    the tech-driven world of tomorrow.
+                  </p>
+                </div>
+              </div>
+            </div>
           </div>
-        ))}
-      </div>
-    </section>
+
+          <div className="mt-12 grid gap-4 sm:grid-cols-3">
+            {[
+              { icon: "⚔️", text: "Innovative Training" },
+              { icon: "🏰", text: "Engaging Experiences" },
+              { icon: "🏆", text: "Achievement Focused" },
+            ].map((item, i) => (
+              <div
+                key={i}
+                className="relative overflow-hidden rounded-xl border border-white/10 shadow-lg"
+              >
+                <div className="absolute inset-0 bg-gradient-to-r from-[#0F1123]/60 to-transparent"></div>
+
+                <div className="relative flex flex-col items-center justify-center p-5 text-center hover:scale-105 transition duration-300">
+                  <div className="text-4xl sm:text-5xl">{item.icon}</div>
+                  <p className="mt-3 text-xs font-bold uppercase tracking-widest text-white sm:text-sm">
+                    {item.text.split(" ")[0]} <br /> {item.text.split(" ")[1]}
+                  </p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+      <section className="min-h-screen px-5 py-[60px] text-white text-center font-arcade]">
+        <h2 className="text-[3rem] mb-4 tracking-[4px] uppercase">
+          Meet The Team
+        </h2>
+
+        <p className="text-[#ffffff] max-w-[600px] mx-auto mb-[80px] leading-relaxed font-arcade">
+          The folks behind Code Quest.
+          <br />
+        </p>
+
+        <div className="grid grid-cols-[repeat(auto-fit,minmax(220px,1fr))] gap-10 max-w-[1100px] mx-auto">
+          {teamMembers.map((member) => (
+            <div key={member.name} className="flex flex-col items-center">
+              {/* Folder Card */}
+              <div className="bg-[#D9D9C3] pt-5 px-3 pb-2 relative border-r-[6px] border-b-[6px] border-black/20 w-[180px]">
+                {/* Image Box */}
+                <div
+                  className="h-[160px] border-[4px] border-[#2D2D2D] flex items-center justify-center overflow-hidden"
+                  style={{ backgroundColor: member.color }}
+                >
+                  {member.image ? (
+                    <img
+                      src={member.image}
+                      alt={member.name}
+                      className="w-full h-full object-cover [image-rendering:pixelated]"
+                    />
+                  ) : (
+                    <div className="text-[60px]">👤</div>
+                  )}
+                </div>
+
+                {/* Name Tag */}
+                <div className="flex items-center pt-3 pb-1 gap-2">
+                  <div className="w-[10px] h-[10px] bg-[#FF4136] rounded-full shadow-[0_0_10px_#FF4136] border border-[#700]" />
+
+                  <span className="text-[#2D2D2D] text-base whitespace-nowrap uppercase">
+                    {member.name.split(" ")[0]}
+                  </span>
+                </div>
+              </div>
+
+              {/* Role */}
+              <p className="mt-[15px] text-[0.9rem] font-medium opacity-90">
+                {member.role}
+              </p>
+
+              {/* Social Icons */}
+              <div className="flex gap-2.5 mt-3">
+                <a
+                  href={member.socials.github}
+                  className="w-8 h-8 bg-[#2D2D44] border-2 border-[#4A4A6A] flex items-center justify-center text-[#A1A1C1] transition-all duration-200 hover:bg-[#4A4A6A] hover:text-white hover:-translate-y-[2px] hover:border-white"
+                >
+                  {Icons.github}
+                </a>
+
+                <a
+                  href={member.socials.linkedin}
+                  className="w-8 h-8 bg-[#2D2D44] border-2 border-[#4A4A6A] flex items-center justify-center text-[#A1A1C1] transition-all duration-200 hover:bg-[#4A4A6A] hover:text-white hover:-translate-y-[2px] hover:border-white"
+                >
+                  {Icons.linkedin}
+                </a>
+
+                <a
+                  href={member.socials.email}
+                  className="w-8 h-8 bg-[#2D2D44] border-2 border-[#4A4A6A] flex items-center justify-center text-[#A1A1C1] transition-all duration-200 hover:bg-[#4A4A6A] hover:text-white hover:-translate-y-[2px] hover:border-white"
+                >
+                  {Icons.email}
+                </a>
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
+    </>
   );
 }
 
