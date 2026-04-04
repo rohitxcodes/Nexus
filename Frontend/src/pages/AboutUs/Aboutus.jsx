@@ -1,7 +1,7 @@
 import React from "react";
 import Navbar from "../../components/layout/Nav";
 import Rohit from "../../../public/avtar.png";
-
+import Github from "../../../public/github.svg";
 function AboutUs() {
   const teamMembers = [
     {
@@ -52,7 +52,7 @@ function AboutUs() {
   const Icons = {
     github: (
       <img
-        src="../../../public/github.svg" // your image path
+        src={Github}
         alt="GitHub"
         className="w-[18px] h-[18px] object-contain"
       />
