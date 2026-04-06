@@ -39,8 +39,8 @@ export default function LevelPage() {
         />
 
         <nav className="flex flex-col gap-20 text-4xl font-bold py-6 px-9">
-          <Link to="/train" className="cursor-pointer">
-            TRAIN
+          <Link to="/leaderbord" className="cursor-pointer">
+            LEADERBOARD
           </Link>
           <Link to="/practice" className="cursor-pointer">
             PRACTICE

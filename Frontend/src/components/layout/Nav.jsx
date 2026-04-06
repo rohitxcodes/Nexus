@@ -13,8 +13,8 @@ const Nav = () => {
             </Link>
           </div>
           <div className="nav-buttons flex gap-10 py-10 px-10">
-            <Link to="/train/play">
-              <p style={{ cursor: "pointer" }}>Train</p>
+            <Link to="/leaderbord">
+              <p style={{ cursor: "pointer" }}>Best</p>
             </Link>
             <Link to="/clan">
               <p style={{ cursor: "pointer" }}>Clan</p>

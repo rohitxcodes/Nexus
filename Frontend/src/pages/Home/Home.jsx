@@ -84,7 +84,7 @@ const Home = () => {
                 <p className="body-text text-7xl">SMART LEARNING</p>
               </div>
               <div className="flex gap-50">
-                <Link to="/train">
+                <Link to="/play">
                   <div className="buttons flex items-center gap-10">
                     <p className="text-center -tracking-tighter">Train</p>
                     <FaArrowCircleRight size={40} />

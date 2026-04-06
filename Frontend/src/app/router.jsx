@@ -1,6 +1,6 @@
 import { createBrowserRouter, Navigate } from "react-router-dom";
 
-import Train from "../pages/Train/Train";
+import LeaderBord from "../pages/Train/LeaderBord";
 import Home from "../pages/Home/Home";
 import Level from "../pages/level/Level";
 import Game from "../pages/Game/Game";
@@ -50,15 +50,15 @@ const router = createBrowserRouter([
     ),
   },
   {
-    path: "/train",
+    path: "/leaderbord",
     element: (
       <ProtectedRoute>
-        <Train />
+        <LeaderBord />
       </ProtectedRoute>
     ),
   },
   {
-    path: "/train/play",
+    path: "/play",
     element: (
       <ProtectedRoute>
         <Level />
@@ -66,7 +66,7 @@ const router = createBrowserRouter([
     ),
   },
   {
-    path: "/train/play/game",
+    path: "/play/game",
     element: (
       <ProtectedRoute>
         <Game />

@@ -53,6 +53,10 @@ const userSchema = new mongoose.Schema(
       type: [Number],
       default: [],
     },
+    purchases: {
+      type: mongoose.Schema.Types.Mixed,
+      default: {},
+    },
   },
   { timestamps: true },
 );

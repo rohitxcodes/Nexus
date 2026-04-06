@@ -58,7 +58,7 @@ async function getCurrentUser(req, res, next) {
 async function getMe(req, res, next) {
   try {
     const user = await User.findById(req.user.userId).select(
-      "username email totalXP currentLevel completedLevels",
+      "username email totalXP currentLevel completedLevels purchases",
     );
     if (!user) return res.status(404).json({ message: "User not found" });
     const submissionsCount = await Submission.countDocuments({
