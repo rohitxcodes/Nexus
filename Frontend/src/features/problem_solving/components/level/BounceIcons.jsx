@@ -16,11 +16,12 @@ export default function BounceIcons() {
     selected: [],
   });
 
-  const itemLabelMap = {
-    hint: "AI Hint",
-    debug: "AI Debugging",
-    doubleXp: "Double XP",
-  };
+  const shopItems = [
+    { key: "hint", label: "AI Hint" },
+    { key: "debug", label: "AI Debugging" },
+    { key: "doubleXp", label: "Double XP" },
+    { key: "skip", label: "Skip Level" },
+  ];
 
   // PUBLIC assets
   const iconSets = [
@@ -100,21 +101,29 @@ export default function BounceIcons() {
           throw new Error(data?.message || "Failed to load user data");
         }
 
-        const levelPurchases =
-          data?.user?.purchases?.[String(levelNumber)] || {};
+        const allPurchases =
+          data?.user?.purchases && typeof data.user.purchases === "object"
+            ? data.user.purchases
+            : {};
 
-        const options = Object.entries(levelPurchases)
-          .filter(([, count]) => Number(count) > 0)
-          .map(([itemKey, count]) => ({
-            itemKey,
-            count: Number(count),
-            label: itemLabelMap[itemKey] || itemKey,
-          }));
+        const totalPurchases = Object.values(allPurchases).reduce(
+          (acc, levelBucket) => {
+            if (!levelBucket || typeof levelBucket !== "object") return acc;
 
-        if (!options.length) {
-          navigate(`/levels/${levelNumber}`);
-          return;
-        }
+            acc.hint += Number(levelBucket.hint || 0);
+            acc.debug += Number(levelBucket.debug || 0);
+            acc.doubleXp += Number(levelBucket.doubleXp || 0);
+            acc.skip += Number(levelBucket.skip || 0);
+            return acc;
+          },
+          { hint: 0, debug: 0, doubleXp: 0, skip: 0 },
+        );
+
+        const options = shopItems.map((item) => ({
+          itemKey: item.key,
+          count: Number(totalPurchases[item.key] || 0),
+          label: item.label,
+        }));
 
         setSelectionModal({
           open: true,
@@ -132,6 +141,11 @@ export default function BounceIcons() {
 
   const toggleSelectedItem = (itemKey) => {
     setSelectionModal((prev) => {
+      const count = Number(
+        prev.options.find((option) => option.itemKey === itemKey)?.count || 0,
+      );
+      if (count <= 0) return prev;
+
       const alreadySelected = prev.selected.includes(itemKey);
       return {
         ...prev,
@@ -268,6 +282,7 @@ export default function BounceIcons() {
                 const checked = selectionModal.selected.includes(
                   option.itemKey,
                 );
+                const canUse = Number(option.count) > 0;
                 return (
                   <label
                     key={option.itemKey}
@@ -284,6 +299,7 @@ export default function BounceIcons() {
                       type="checkbox"
                       checked={checked}
                       onChange={() => toggleSelectedItem(option.itemKey)}
+                      disabled={!canUse}
                       className="h-4 w-4"
                     />
                   </label>

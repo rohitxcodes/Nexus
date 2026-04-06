@@ -1,7 +1,7 @@
 export default function ProblemDescription({ problem }) {
   return (
     <div
-      className="p-4 overflow-y-auto h-full"
+      className="problem-scroll h-full overflow-y-auto p-4"
       style={{ backgroundColor: "#001F3D" }}
     >
       {/* TITLE */}

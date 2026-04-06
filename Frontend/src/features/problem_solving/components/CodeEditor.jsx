@@ -29,6 +29,11 @@ export default function CodeEditor({ language, problem, setCode }) {
         fontSize: 14,
         minimap: { enabled: false },
         automaticLayout: true,
+        scrollbar: {
+          vertical: "hidden",
+          horizontal: "hidden",
+          alwaysConsumeMouseWheel: false,
+        },
       }}
     />
   );

@@ -3,15 +3,20 @@ const User = require("../../models/user.model");
 async function grantXPIfEligible(userId, levelNumber, xpAmount) {
   if (!xpAmount || xpAmount <= 0) return 0;
 
-  // Check double XP BEFORE atomic update
+  // Read booster state first; it will be decremented only if XP grant succeeds.
   const user = await User.findById(userId).select("doubleXPRoundsLeft");
   if (!user) return 0;
 
-  let finalAmount = xpAmount;
+  const hasDoubleXP = Number(user.doubleXPRoundsLeft || 0) > 0;
+  const finalAmount = hasDoubleXP ? xpAmount * 2 : xpAmount;
 
-  if (user.doubleXPRoundsLeft > 0) {
-    finalAmount = xpAmount * 2;
-    await User.updateOne({ _id: userId }, { $inc: { doubleXPRoundsLeft: -1 } });
+  const updateOps = {
+    $addToSet: { completedLevels: levelNumber },
+    $inc: { totalXP: finalAmount },
+  };
+
+  if (hasDoubleXP) {
+    updateOps.$inc.doubleXPRoundsLeft = -1;
   }
 
   const updateResult = await User.updateOne(
@@ -19,10 +24,7 @@ async function grantXPIfEligible(userId, levelNumber, xpAmount) {
       _id: userId,
       completedLevels: { $ne: levelNumber },
     },
-    {
-      $addToSet: { completedLevels: levelNumber },
-      $inc: { totalXP: finalAmount },
-    },
+    updateOps,
   );
 
   return updateResult.modifiedCount === 1 ? finalAmount : 0;

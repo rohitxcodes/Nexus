@@ -3,7 +3,10 @@ const shopService = require("../services/shop.service");
 async function getHint(req, res) {
   try {
     const userId = req.user.userId;
-    const result = await shopService.getHint(userId);
+    const hasPayload = req.body && Object.keys(req.body).length > 0;
+    const result = hasPayload
+      ? await shopService.invokeHint(userId, req.body)
+      : await shopService.getHint(userId);
     res.status(200).json({ success: true, ...result });
   } catch (err) {
     res.status(400).json({ success: false, message: err.message });
@@ -66,6 +69,16 @@ async function addCash(req, res) {
   }
 }
 
+async function usePower(req, res) {
+  try {
+    const userId = req.user.userId;
+    const result = await shopService.usePower(userId, req.body || {});
+    res.status(200).json({ success: true, ...result });
+  } catch (err) {
+    res.status(400).json({ success: false, message: err.message });
+  }
+}
+
 module.exports = {
   getHint,
   debugCode,
@@ -73,4 +86,5 @@ module.exports = {
   skipLevel,
   getCashBalance,
   addCash,
+  usePower,
 };
