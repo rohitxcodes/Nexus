@@ -1,6 +1,6 @@
 <div align="center">
 
-<img src="https://code-quest-nexus.vercel.app/icon.png" alt="Code Quest Logo" width="100"/>
+<img src="https://github.com/rohitxcodes/Nexus/blob/main/Frontend/public/logo.png" alt="Code Quest Logo" width="300"/>
 
 # ⚔️ Code Quest
 
