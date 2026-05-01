@@ -18,12 +18,7 @@ function logBoot(event, details = "") {
 const server = http.createServer(app);
 const io = new Server(server, {
   cors: {
-    origin: [
-      "http://localhost:5173",
-      "http://localhost:5174",
-      "http://localhost:3000",
-      "https://code-quest-nexus.vercel.app",
-    ],
+    origin: [process.env.FRONTEND_URL],
     credentials: true,
   },
 });
