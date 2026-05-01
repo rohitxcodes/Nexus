@@ -2,9 +2,10 @@ import React, { useEffect, useRef, useState } from "react";
 import { io } from "socket.io-client";
 import Bg from "../../../public/clan_bg.png";
 import Navbar from "../../components/layout/Nav";
-import ClanLeaderbord from "../../../public/clan-leaderbord-bg.png";
 import { API_BASE } from "../../utils/api";
 import { getToken } from "../../utils/storage";
+
+const ClanLeaderbord = "/clan_leaderbord_bg.png";
 
 const initialChatMessages = [
   {
@@ -416,16 +417,16 @@ function Clan() {
         <div className="relative z-10 flex flex-1 flex-col gap-6">
           <div className="grid gap-4 lg:grid-cols-[300px_1fr_340px] lg:items-start lg:gap-8">
             <div className="flex flex-col gap-4">
-              <section className="mr-auto mt-5 translate-x-20 flex h-85 w-full max-w-70 flex-col overflow-hidden rounded-2xl  shadow-[0_18px_40px_rgba(0,0,0,0.4)]">
-                <div className="shrink-0   px-4 py-3 text-center shadow-inner">
+              <section className="mr-auto mt-5 translate-x-20 flex h-88 w-full max-w-70 flex-col overflow-hidden rounded-2xl border border-white/15 bg-black/25 backdrop-blur-md shadow-[0_18px_40px_rgba(0,0,0,0.4)]">
+                <div className="shrink-0 bg-white/5 px-4 py-3 text-center shadow-inner">
                   <h2 className="text-lg font-black uppercase tracking-[0.16em] text-yellow-300 drop-shadow-[0_2px_0_rgba(0,0,0,0.55)]">
                     Clan Chat
                   </h2>
                 </div>
 
                 <div className="flex min-h-0 flex-1 flex-col px-2.5 py-2.5 md:px-3">
-                  <div className="flex min-h-0 flex-1 flex-col rounded-2xl border-[#c9ad8a]  p-3 shadow-[inset_0_0_0_1px_rgba(92,58,31,0.35)]">
-                    <div className="min-h-0 flex-1 space-y-3 overflow-y-auto overscroll-contain pr-1 text-sm font-semibold leading-relaxed text-white">
+                  <div className="flex min-h-0 flex-1 flex-col rounded-2xl border border-[#c9ad8a]/35 bg-black/20 p-3 shadow-[inset_0_0_0_1px_rgba(92,58,31,0.35)] backdrop-blur-sm">
+                    <div className="min-h-0 flex-1 space-y-3 overflow-y-auto overscroll-contain pr-1 text-sm font-semibold leading-relaxed text-white font-[Arial,sans-serif]">
                       {chatMessages.map((message, index) => (
                         <p
                           key={message.id || `${message.author}-${index}`}
@@ -457,7 +458,7 @@ function Clan() {
                       <button
                         type="button"
                         onClick={handleSendMessage}
-                        className="rounded-md border border-[#9e7c56] bg-linear-to-b from-[#b48757] to-[#8f6339] px-3 py-2.5 text-xs font-bold uppercase tracking-widest text-[#fff4de] shadow-[0_4px_0_rgba(80,50,22,0.7)] transition-transform hover:-translate-y-0.5"
+                        className="rounded-md border border-[#9e7c56] bg-linear-to-b from-[#b48757] to-[#8f6339] px-1 py-0.5 text-xs font-bold uppercase tracking-widest text-[#fff4de] shadow-[0_4px_0_rgba(80,50,22,0.7)] transition-transform hover:-translate-y-0.5"
                       >
                         Send
                       </button>
@@ -467,8 +468,8 @@ function Clan() {
               </section>
 
               <button
-                className="relative z-20 self-end -mt-5 mr-2 w-fit bg-cover bg-center bg-no-repeat px-6 py-3 text-base font-black uppercase tracking-[0.14em] text-[#fff4de] shadow-[0_4px_0_rgba(80,50,22,0.7)] transition-transform duration-200 hover:scale-105"
-                style={{ backgroundImage: `url(${ClanLeaderbord})` }}
+                type="button"
+                className="relative z-20 self-end -mt-5 mr-2 w-fit rounded-md border border-[#9e7c56] bg-linear-to-b from-[#b48757] via-[#9a6c3f] to-[#7a4f2c] px-4 py-2 text-base font-black uppercase tracking-[0.14em] text-[#fff4de] shadow-[0_5px_0_rgba(80,50,22,0.7),0_10px_20px_rgba(0,0,0,0.35)] transition-all duration-200 hover:-translate-y-0.5 hover:brightness-110 active:translate-y-0 active:shadow-[0_2px_0_rgba(80,50,22,0.7),0_6px_14px_rgba(0,0,0,0.35)]"
               >
                 1v1 Challenge
               </button>
@@ -478,28 +479,25 @@ function Clan() {
               aria-hidden="true"
             />
 
-            <section className="h-[12rem] w-[98%] overflow-hidden rounded-2xl shadow-[0_18px_40px_rgba(0,0,0,0.4)] lg:w-[90%] lg:-translate-x-16 lg:-translate-y-0.5 flex flex-col">
-              <div
-                className="bg-fit bg-center bg-no-repeat px-3 py-0.5 text-center shadow-inner"
-                style={{ backgroundImage: `url(${ClanLeaderbord})` }}
-              >
-                <h2 className="text-lg font-black uppercase tracking-[0.16em] text-yellow-300 drop-shadow-[0_2px_0_rgba(0,0,0,0.55)] md:text-xl mt-1 ">
+            <section className="relative flex h-32 w-[98%] flex-col overflow-hidden rounded-2xl border border-white/15 bg-black/20 backdrop-blur-md shadow-[0_18px_40px_rgba(0,0,0,0.4)] lg:h-52 lg:w-[90%] lg:-translate-x-16 lg:-translate-y-0.5">
+              <div className="relative z-10 bg-black/20 px-2.5 py-1.5 text-center shadow-inner">
+                <h2 className="mt-0.5 text-base font-black uppercase tracking-[0.16em] text-yellow-300 drop-shadow-[0_2px_0_rgba(0,0,0,0.55)] md:text-lg">
                   Clan Leaderboard
                 </h2>
               </div>
 
-              <div className="min-h-0 flex-1  px-1.5 py-1.5 md:px-2 md:py-1.5">
-                <div className="h-full space-y-1 rounded-2xl  p-1.5 shadow-[inset_0_0_0_1px_rgba(92,58,31,0.35)] md:p-2">
+              <div className="relative z-10 min-h-0 flex-1 px-1.5 py-1 md:px-1.5 md:py-1">
+                <div className="h-full space-y-1 rounded-2xl border border-white/10 bg-black/20 p-1.5 shadow-[inset_0_0_0_1px_rgba(92,58,31,0.35)] backdrop-blur-sm md:p-1.5">
                   {leaderboardMembers.slice(0, 3).map((member) => (
                     <div
                       key={member.name}
-                      className="flex items-center justify-between rounded-md px-2 py-1 text-xs text-white shadow-inner md:px-2.5 md:py-1.5 md:text-sm"
+                      className="flex items-center justify-between rounded-md border border-white/10 bg-white/10 px-2 py-1 text-xs text-white shadow-inner md:px-2 md:py-1 md:text-sm"
                     >
                       <div>
                         <p className="font-black uppercase tracking-[0.08em] leading-tight">
                           {member.name}
                         </p>
-                        <p className="text-[9px] uppercase tracking-[0.1em] leading-tight text-white/75 md:text-[10px]">
+                        <p className="text-[9px] uppercase tracking-widest leading-tight text-white/75 md:text-[10px]">
                           {member.title} LvL {member.level}
                         </p>
                       </div>
