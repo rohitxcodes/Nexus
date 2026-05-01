@@ -1,4 +1,5 @@
 const User = require("../models/user.model");
+const chatgpt = require("../config/chatgpt");
 const ai = require("../config/gemini");
 const Problem = require("../models/problem.model");
 const { advanceLevel } = require("./progression.service");
@@ -226,10 +227,48 @@ async function invokeHint(userId, payload = {}) {
     .filter(Boolean)
     .join("\n");
 
+  // Prefer OpenAI Chat Completions if configured
+  if (process.env.OPENAI_API_KEY) {
+    try {
+      const systemPrompt = `You are a coding mentor. Give exactly 1 concise hint and do not provide the full solution. Focus on approach, edge cases, or bug direction.`;
+      const messages = [
+        { role: "system", content: systemPrompt },
+        { role: "user", content: prompt },
+      ];
+
+      const data = await chatgpt.createChatCompletion({
+        messages,
+        model: process.env.OPENAI_MODEL || "gpt-3.5-turbo",
+        max_tokens: 400,
+      });
+      const content =
+        data?.choices?.[0]?.message?.content ||
+        data?.choices?.[0]?.text ||
+        null;
+
+      const hint =
+        (typeof content === "string" ? content.trim() : null) ||
+        "Try breaking the task into smaller steps and validate with edge cases.";
+
+      return {
+        message: "AI Hint generated",
+        hint,
+        source: "openai",
+      };
+    } catch (error) {
+      return {
+        message: formatAiFailureMessage(error),
+        hint: buildFallbackHint({ title, language, codeSnippet }),
+        source: "fallback",
+      };
+    }
+  }
+
+  // Fallback to Gemini if OpenAI is not configured
   if (!process.env.GEMINI_API_KEY) {
     return {
       message: "AI Hint generated",
-      hint: "Hint service is not fully configured on server (missing GEMINI_API_KEY).",
+      hint: "Hint service is not fully configured on server (missing GEMINI_API_KEY and OPENAI_API_KEY).",
     };
   }
 
@@ -337,11 +376,50 @@ async function invokeDebug(userId, payload = {}) {
     .filter(Boolean)
     .join("\n");
 
+  // Prefer OpenAI Chat Completions if configured
+  if (process.env.OPENAI_API_KEY) {
+    try {
+      const systemPrompt = `You are an expert debugging mentor. Analyze the user's code for this coding problem. Return concise feedback with: probable bug, why it fails, and one fix direction. Do not return a full final solution.`;
+      const messages = [
+        { role: "system", content: systemPrompt },
+        { role: "user", content: prompt },
+      ];
+
+      const data = await chatgpt.createChatCompletion({
+        messages,
+        model: process.env.OPENAI_MODEL || "gpt-3.5-turbo",
+        max_tokens: 600,
+      });
+      const content =
+        data?.choices?.[0]?.message?.content ||
+        data?.choices?.[0]?.text ||
+        null;
+
+      const debug =
+        (typeof content === "string" ? content.trim() : null) ||
+        "Check loop boundaries and edge-case handling; log intermediate states to isolate the bug.";
+
+      return {
+        message: "AI Debug generated",
+        debug,
+        source: "openai",
+      };
+    } catch (error) {
+      return {
+        message: formatAiFailureMessage(error),
+        debug:
+          "Could not reach AI debug service right now. Check edge cases, boundary conditions, and variable updates inside your main loop.",
+        source: "fallback",
+      };
+    }
+  }
+
+  // Fallback to Gemini if OpenAI is not configured
   if (!process.env.GEMINI_API_KEY) {
     return {
       message: "AI Debug generated",
       debug:
-        "Debug service is not fully configured on server (missing GEMINI_API_KEY).",
+        "Debug service is not fully configured on server (missing GEMINI_API_KEY and OPENAI_API_KEY).",
     };
   }
 

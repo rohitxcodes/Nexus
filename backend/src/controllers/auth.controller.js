@@ -2,6 +2,22 @@ const authService = require("../services/auth.service");
 const User = require("../models/user.model");
 const Submission = require("../models/submission.model");
 
+function getCookieOptions(req) {
+  const host = String(req.hostname || "").toLowerCase();
+  const isLocalhost =
+    host === "localhost" || host === "127.0.0.1" || host === "::1";
+  const isHttps =
+    req.secure || String(req.headers["x-forwarded-proto"] || "") === "https";
+
+  const useSecureCookie = !isLocalhost && isHttps;
+  return {
+    httpOnly: true,
+    sameSite: useSecureCookie ? "none" : "lax",
+    secure: useSecureCookie,
+    maxAge: 7 * 24 * 60 * 60 * 1000,
+  };
+}
+
 async function registerUser(req, res, next) {
   try {
     console.log("Registration request received:", req.body);
@@ -29,12 +45,7 @@ async function loginUser(req, res, next) {
     // Authentication successful - user is an object
     const token = authService.generateAuthToken(user);
 
-    res.cookie("token", token, {
-      httpOnly: true,
-      sameSite: "none",
-      secure: true,
-      maxAge: 7 * 24 * 60 * 60 * 1000,
-    });
+    res.cookie("token", token, getCookieOptions(req));
 
     return res.send({
       success: true,
@@ -71,7 +82,12 @@ async function getMe(req, res, next) {
   }
 }
 async function logoutUser(req, res, next) {
-  res.clearCookie("token");
+  const cookieOptions = getCookieOptions(req);
+  res.clearCookie("token", {
+    httpOnly: true,
+    sameSite: cookieOptions.sameSite,
+    secure: cookieOptions.secure,
+  });
   return res.send("Logged out");
 }
 

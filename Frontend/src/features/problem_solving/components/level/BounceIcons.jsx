@@ -3,10 +3,15 @@ import { useNavigate } from "react-router-dom";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { API_BASE } from "../../../../utils/api";
+import { getToken } from "../../../../utils/storage";
 
 gsap.registerPlugin(ScrollTrigger);
 
-export default function BounceIcons() {
+export default function BounceIcons({
+  filteredLevels = [],
+  isLoadingLevels = false,
+  selectedTopic = "Arcade",
+}) {
   const sectionsRef = useRef([]);
   const navigate = useNavigate();
   const [selectionModal, setSelectionModal] = useState({
@@ -23,31 +28,7 @@ export default function BounceIcons() {
     { key: "skip", label: "Skip Level" },
   ];
 
-  // PUBLIC assets
-  const iconSets = [
-    ["/icon.png", "/icon.png", "/icon.png", "/icon.png", "/icon.png"],
-    ["/icon.png", "/icon.png", "/icon.png", "/icon.png", "/icon.png"],
-    ["/icon.png", "/icon.png", "/icon.png", "/icon.png", "/icon.png"],
-    ["/icon.png", "/icon.png", "/icon.png", "/icon.png", "/icon.png"],
-    ["/icon.png", "/icon.png", "/icon.png", "/icon.png", "/icon.png"],
-    ["/icon.png", "/icon.png", "/icon.png", "/icon.png", "/icon.png"],
-    ["/icon.png", "/icon.png", "/icon.png", "/icon.png", "/icon.png"],
-    ["/icon.png", "/icon.png", "/icon.png", "/icon.png", "/icon.png"],
-    ["/icon.png", "/icon.png", "/icon.png", "/icon.png", "/icon.png"],
-    ["/icon.png", "/icon.png", "/icon.png", "/icon.png", "/icon.png"],
-    ["/icon.png", "/icon.png", "/icon.png", "/icon.png", "/icon.png"],
-    ["/icon.png", "/icon.png", "/icon.png", "/icon.png", "/icon.png"],
-    ["/icon.png", "/icon.png", "/icon.png", "/icon.png", "/icon.png"],
-    ["/icon.png", "/icon.png", "/icon.png", "/icon.png", "/icon.png"],
-    ["/icon.png", "/icon.png", "/icon.png", "/icon.png", "/icon.png"],
-    ["/icon.png", "/icon.png", "/icon.png", "/icon.png", "/icon.png"],
-    ["/icon.png", "/icon.png", "/icon.png", "/icon.png", "/icon.png"],
-    ["/icon.png", "/icon.png", "/icon.png", "/icon.png", "/icon.png"],
-    ["/icon.png", "/icon.png", "/icon.png", "/icon.png", "/icon.png"],
-    ["/icon.png", "/icon.png", "/icon.png", "/icon.png", "/icon.png"],
-  ];
-
-  // CHANGED: Made values positive so the islands zig-zag to the RIGHT,
+  // Made values positive so the islands zig-zag to the RIGHT,
   // keeping them away from the left sidebar.
   const transforms = [
     "translateX(250px)",
@@ -63,6 +44,8 @@ export default function BounceIcons() {
 
       validSections.forEach((section) => {
         const items = section.querySelectorAll(".animate-item");
+
+        if (!items || items.length === 0) return;
 
         gsap.fromTo(
           items,
@@ -90,9 +73,18 @@ export default function BounceIcons() {
   const handleLevelClick = (levelNumber) => {
     const loadPurchases = async () => {
       try {
+        const token = getToken();
+        if (!token) {
+          navigate(`/levels/${levelNumber}`);
+          return;
+        }
+
         const res = await fetch(`${API_BASE}/api/auth/me`, {
           method: "GET",
           credentials: "include",
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
         });
 
         const data = await res.json();
@@ -179,92 +171,137 @@ export default function BounceIcons() {
   return (
     <>
       <div className="min-h-screen overflow-x-hidden! overflow-y-hidden bg-blue-50/10">
-        {iconSets.map((icons, sectionIndex) => (
-          <section
-            key={sectionIndex}
-            ref={(el) => (sectionsRef.current[sectionIndex] = el)}
-            className="flex flex-row items-start justify-between min-h-screen relative"
-          >
-            {/* Spacer for the left sidebar */}
-            <div className="hidden lg:block w-80 shrink-0" />
+        {filteredLevels.length > 0 ? (
+          Array.from({ length: Math.ceil(filteredLevels.length / 5) }).map(
+            (_, sectionIndex) => {
+              const sectionLevels = filteredLevels.slice(
+                sectionIndex * 5,
+                (sectionIndex + 1) * 5,
+              );
+              return (
+                <section
+                  key={sectionIndex}
+                  ref={(el) => (sectionsRef.current[sectionIndex] = el)}
+                  className="flex flex-row items-start justify-between min-h-screen relative"
+                >
+                  {/* Spacer for the left sidebar */}
+                  <div className="hidden lg:block w-80 shrink-0" />
 
-            {/* CHANGED: 
-                1. items-center -> items-start (moves content to the left)
-                2. Added pl-8 lg:pl-16 to give it breathing room from the sidebar 
-            */}
-            <div className="flex flex-col items-start flex-1 gap-6 z-10 py-3 pl-8 lg:pl-30">
-              {/* section header */}
-              <div className="animate-item w-full max-w-150 bg-[#2937fa] rounded-xl px-9 py-3 shadow-[0_8px_0_#063e99] mb-5 flex items-center">
-                <span className="text-xl text-white/40 font-bold mr-4">--</span>
-                <div className="text-lg font-bold text-blue-200">
-                  SECTION {sectionIndex + 1}
-                </div>
-              </div>
-
-              {/* icons */}
-              {icons.map((icon, iconIndex) => {
-                const levelNumber = sectionIndex * 5 + iconIndex + 1;
-                const isThirdIcon = iconIndex === 2;
-
-                return (
-                  <div
-                    key={iconIndex}
-                    className="relative flex items-center justify-center"
-                    style={{ transform: transforms[iconIndex] }}
-                  >
-                    {/* ICON CONTAINER */}
-                    <div
-                      className="animate-item cursor-pointer relative group"
-                      style={{
-                        filter: "drop-shadow(0px 15px 10px rgba(0,0,0,0.5))",
-                      }}
-                      onClick={() => handleLevelClick(levelNumber)}
-                      onMouseEnter={(e) =>
-                        gsap.to(e.currentTarget, { scale: 1.2, duration: 0.3 })
-                      }
-                      onMouseLeave={(e) =>
-                        gsap.to(e.currentTarget, { scale: 1, duration: 0.3 })
-                      }
-                    >
-                      <img
-                        src={icon}
-                        className="w-25"
-                        alt={`Level ${levelNumber}`}
-                      />
+                  <div className="flex flex-col items-start flex-1 gap-6 z-10 py-3 pl-8 lg:pl-30">
+                    {/* section header */}
+                    <div className="animate-item w-full max-w-150 bg-[#2937fa] rounded-xl px-9 py-3 shadow-[0_8px_0_#063e99] mb-5 flex items-center">
+                      <span className="text-xl text-white/40 font-bold mr-4">
+                        --
+                      </span>
+                      <div className="text-lg font-bold text-blue-200">
+                        SECTION {sectionIndex + 1}
+                      </div>
                     </div>
 
-                    {/* KNIGHT CONTAINER */}
-                    {isThirdIcon && (
-                      <div
-                        className="animate-item absolute left-75 top-[0%] cursor-pointer"
-                        style={{
-                          transform: `translate(${transforms[iconIndex] + 180}px, 0px)`,
-                          filter: "drop-shadow(0px 15px 10px rgba(0,0,0,0.5))",
-                        }}
-                        onClick={() => navigate(`/profile`)}
-                        onMouseEnter={(e) =>
-                          gsap.to(e.currentTarget, {
-                            scale: 1.2,
-                            duration: 0.3,
-                          })
-                        }
-                        onMouseLeave={(e) =>
-                          gsap.to(e.currentTarget, { scale: 1, duration: 0.3 })
-                        }
-                      >
-                        <img
-                          src="/samurai.png"
-                          className="w-50 max-w-none translate-y-0 translate-x-5"
-                          alt="Samurai"
-                        />
-                      </div>
-                    )}
+                    {/* icons */}
+                    {sectionLevels.map((level, iconIndex) => {
+                      const isThirdIcon = iconIndex === 2;
+
+                      return (
+                        <div
+                          key={level.levelNumber}
+                          className="relative flex items-center justify-center"
+                          style={{ transform: transforms[iconIndex] }}
+                        >
+                          {/* ICON CONTAINER */}
+                          <div
+                            className="animate-item cursor-pointer relative group"
+                            style={{
+                              filter:
+                                "drop-shadow(0px 15px 10px rgba(0,0,0,0.5))",
+                            }}
+                            onClick={() => handleLevelClick(level.levelNumber)}
+                            onMouseEnter={(e) =>
+                              gsap.to(e.currentTarget, {
+                                scale: 1.2,
+                                duration: 0.3,
+                              })
+                            }
+                            onMouseLeave={(e) =>
+                              gsap.to(e.currentTarget, {
+                                scale: 1,
+                                duration: 0.3,
+                              })
+                            }
+                          >
+                            <img
+                              src="/icon.png"
+                              className="w-25"
+                              alt={`Level ${level.levelNumber}`}
+                              style={{
+                                filter:
+                                  level.status === "COMPLETED"
+                                    ? "grayscale(100%)"
+                                    : "none",
+                              }}
+                            />
+                            <div className="absolute -bottom-4 left-1/2 grid h-8 w-8 place-items-center rounded-full border-2 border-blue-300 bg-linear-to-br from-blue-300 to-blue-500 text-sm font-black text-white shadow-lg transform -translate-x-1/2">
+                              {level.levelNumber}
+                            </div>
+                          </div>
+
+                          {/* KNIGHT CONTAINER */}
+                          {isThirdIcon && (
+                            <div
+                              className="animate-item absolute left-75 top-[0%] cursor-pointer"
+                              style={{
+                                transform: `translate(${transforms[iconIndex] + 180}px, 0px)`,
+                                filter:
+                                  "drop-shadow(0px 15px 10px rgba(0,0,0,0.5))",
+                              }}
+                              onClick={() => navigate(`/profile`)}
+                              onMouseEnter={(e) =>
+                                gsap.to(e.currentTarget, {
+                                  scale: 1.2,
+                                  duration: 0.3,
+                                })
+                              }
+                              onMouseLeave={(e) =>
+                                gsap.to(e.currentTarget, {
+                                  scale: 1,
+                                  duration: 0.3,
+                                })
+                              }
+                            >
+                              <img
+                                src="/samurai.png"
+                                className="w-50 max-w-none translate-y-0 translate-x-5"
+                                alt="Samurai"
+                              />
+                            </div>
+                          )}
+                        </div>
+                      );
+                    })}
                   </div>
-                );
-              })}
+                </section>
+              );
+            },
+          )
+        ) : isLoadingLevels ? (
+          <section className="flex flex-row items-start justify-between min-h-screen relative">
+            <div className="hidden lg:block w-80 shrink-0" />
+            <div className="flex flex-col items-start flex-1 gap-6 z-10 py-3 pl-8 lg:pl-30">
+              <div className="text-lg font-bold text-white">
+                Loading levels...
+              </div>
             </div>
           </section>
-        ))}
+        ) : (
+          <section className="flex flex-row items-start justify-between min-h-screen relative">
+            <div className="hidden lg:block w-80 shrink-0" />
+            <div className="flex flex-col items-start flex-1 gap-6 z-10 py-3 pl-8 lg:pl-30">
+              <div className="text-lg font-bold text-white">
+                No levels found for {selectedTopic}. Try Arcade mode.
+              </div>
+            </div>
+          </section>
+        )}
       </div>
 
       {selectionModal.open ? (

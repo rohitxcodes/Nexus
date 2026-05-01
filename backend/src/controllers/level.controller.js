@@ -10,6 +10,19 @@ async function getAllLevels(req, res, next) {
     return res.status(500).json({ message: "Failed to fetch levels" });
   }
 }
+
+async function getLevelsByTopic(req, res, next) {
+  try {
+    const userId = req.user?.userId || null;
+    const { topic } = req.params;
+    const levels = await levelService.fetchLevelsByTopic(userId, topic);
+    return res.status(200).json(levels);
+  } catch (err) {
+    console.error("GET LEVELS BY TOPIC ERROR:", err);
+    return res.status(500).json({ message: "Failed to fetch levels by topic" });
+  }
+}
+
 async function getLevelByNumber(req, res, next) {
   const userId = req.user.userId;
   const levelNumber = Number(req.params.levelNumber);
@@ -40,5 +53,6 @@ async function getLevelByNumber(req, res, next) {
 
 module.exports = {
   getAllLevels,
+  getLevelsByTopic,
   getLevelByNumber,
 };

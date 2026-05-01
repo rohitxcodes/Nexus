@@ -6,23 +6,23 @@ const Level = require("../src/models/level.model");
 const MONGO_URI = process.env.MONGO_URI;
 
 const levels = [
-  { levelNumber: 1, difficulty: "Easy", xpReward: 30 },
-  { levelNumber: 2, difficulty: "Easy", xpReward: 30 },
+  { levelNumber: 1, difficulty: "Easy", xpReward: 30, topic: "Arcade" },
+  { levelNumber: 2, difficulty: "Easy", xpReward: 30, topic: "Array" },
 
-  { levelNumber: 3, difficulty: "Medium", xpReward: 40 },
-  { levelNumber: 4, difficulty: "Medium", xpReward: 40 },
-  { levelNumber: 5, difficulty: "Medium", xpReward: 40 },
+  { levelNumber: 3, difficulty: "Medium", xpReward: 40, topic: "Array" },
+  { levelNumber: 4, difficulty: "Medium", xpReward: 40, topic: "LinkedList" },
+  { levelNumber: 5, difficulty: "Medium", xpReward: 40, topic: "LinkedList" },
 
-  { levelNumber: 6, difficulty: "Hard", xpReward: 100 },
+  { levelNumber: 6, difficulty: "Hard", xpReward: 100, topic: "Stack" },
 
-  { levelNumber: 7, difficulty: "Easy", xpReward: 30 },
-  { levelNumber: 8, difficulty: "Easy", xpReward: 30 },
+  { levelNumber: 7, difficulty: "Easy", xpReward: 30, topic: "Queue" },
+  { levelNumber: 8, difficulty: "Easy", xpReward: 30, topic: "Tree" },
 
-  { levelNumber: 9, difficulty: "Medium", xpReward: 40 },
-  { levelNumber: 10, difficulty: "Medium", xpReward: 40 },
-  { levelNumber: 11, difficulty: "Medium", xpReward: 40 },
+  { levelNumber: 9, difficulty: "Medium", xpReward: 40, topic: "Tree" },
+  { levelNumber: 10, difficulty: "Medium", xpReward: 40, topic: "Graph" },
+  { levelNumber: 11, difficulty: "Medium", xpReward: 40, topic: "Sorting" },
 
-  { levelNumber: 12, difficulty: "Hard", xpReward: 100 },
+  { levelNumber: 12, difficulty: "Hard", xpReward: 100, topic: "Searching" },
 ];
 
 async function seedLevels() {

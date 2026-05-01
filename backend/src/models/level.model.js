@@ -22,6 +22,21 @@ const levelSchema = new mongoose.Schema(
       enum: ["Easy", "Medium", "Hard"],
       required: true,
     },
+    topic: {
+      type: String,
+      enum: [
+        "Arcade",
+        "Array",
+        "LinkedList",
+        "Stack",
+        "Queue",
+        "Tree",
+        "Graph",
+        "Sorting",
+        "Searching",
+      ],
+      default: "Arcade",
+    },
   },
   { timestamps: true },
 );
