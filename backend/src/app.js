@@ -25,10 +25,9 @@ const allowedOrigins = [
 app.use(
   cors({
     origin: function (origin, callback) {
-      // allow server tools like Postman/curl
-      if (!origin) return callback(null, true);
+      const allowedOrigin = process.env.FRONTEND_URL;
 
-      if (allowedOrigins.includes(origin)) {
+      if (origin === allowedOrigin) {
         return callback(null, true);
       }
 
