@@ -22,7 +22,6 @@
 
 - **🎮 Level System** — Progressive DSA levels with LOCKED / UNLOCKED / COMPLETED states. Each level: 2 Easy + 3 Medium + 1 Hard = 340 XP on full clear.
 - **💻 Code Execution** — Monaco Editor with Judge0 CE integration. Supports C++, Java, Python, JavaScript with real test case evaluation.
-- **⚔️ 1v1 Duels** — Challenge any user to a real-time match. Same problem, first ACCEPTED verdict wins.
 - **🏰 Clans** — Create or join clans, manage membership, compete on a local leaderboard, and chat in real-time via Socket.io.
 - **🏆 Trophies** — Milestone-based achievement system (First Blood, On Fire, Duel Master, Speed Demon, etc.)
 - **🛒 Shop** — Gold & Cash currency system. Spend XP on power-ups, XP multipliers, and AI hints.
