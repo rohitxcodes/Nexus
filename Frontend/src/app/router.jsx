@@ -1,20 +1,24 @@
 import { createBrowserRouter, Navigate } from "react-router-dom";
+import { lazy } from "react";
 
-import LeaderBord from "../pages/Train/LeaderBord";
-import Home from "../pages/Home/Home";
-import Level from "../pages/level/Level";
-import Game from "../pages/Game/Game";
-import Register from "../pages/auth/Register";
-import Login from "../pages/auth/Login";
-import Landing from "../pages/Landing/DemoLandingPage";
-import ProblemPage from "../features/problem_solving/pages/ProblemPage";
-import Shop from "../pages/Shop/Shop";
-import Profile from "../pages/Profile/Profile";
 import PublicRoute from "../components/common/PublicRoute";
-import Clan from "../pages/Clan/Clan";
-import OneVsOne from "../pages/Game/OneVsOne";
-import AboutUs from "../pages/AboutUs/Aboutus";
 import ProtectedRoute from "../components/common/ProtectedRoute";
+
+const LeaderBord = lazy(() => import("../pages/Train/LeaderBord"));
+const Home = lazy(() => import("../pages/Home/Home"));
+const Level = lazy(() => import("../pages/level/Level"));
+const Game = lazy(() => import("../pages/Game/Game"));
+const Register = lazy(() => import("../pages/auth/Register"));
+const Login = lazy(() => import("../pages/auth/Login"));
+const Landing = lazy(() => import("../pages/Landing/DemoLandingPage"));
+const ProblemPage = lazy(
+  () => import("../features/problem_solving/pages/ProblemPage"),
+);
+const Shop = lazy(() => import("../pages/Shop/Shop"));
+const Profile = lazy(() => import("../pages/Profile/Profile"));
+const Clan = lazy(() => import("../pages/Clan/Clan"));
+const OneVsOne = lazy(() => import("../pages/Game/OneVsOne"));
+const AboutUs = lazy(() => import("../pages/AboutUs/Aboutus"));
 
 const router = createBrowserRouter([
   // PUBLIC ROUTES
