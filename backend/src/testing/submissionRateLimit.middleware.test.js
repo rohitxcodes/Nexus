@@ -93,19 +93,19 @@ describe("submissionRateLimit middleware", () => {
 
     expect(next).toHaveBeenCalledTimes(1);
     expect(res.statusCode).toBe(200);
-    expect(res.headers["X-RateLimit-Limit-10s"]).toBe("5");
-    expect(res.headers["X-RateLimit-Remaining-10s"]).toBe("4");
+    expect(res.headers["X-RateLimit-Limit-20s"]).toBe("5");
+    expect(res.headers["X-RateLimit-Remaining-20s"]).toBe("4");
     expect(res.headers["X-RateLimit-Limit-10m"]).toBe("20");
     expect(res.headers["X-RateLimit-Remaining-10m"]).toBe("19");
   });
 
-  it("blocks a 6th submission inside 10 seconds", async () => {
+  it("blocks a 6th submission inside 20 seconds", async () => {
     const next = jest.fn();
 
     for (let i = 0; i < 5; i += 1) {
       const res = makeRes();
       await submissionRateLimit(makeReq(), res, next);
-      now += 1_000;
+      now += 2_000;
       expect(res.statusCode).toBe(200);
     }
 

@@ -3,7 +3,7 @@ const RateLimitWindow = require("../models/rateLimitWindow.model");
 const RATE_LIMITS = {
   burst: {
     maxRequests: 5,
-    windowMs: 10_000,
+    windowMs: 20_000,
   },
   longWindow: {
     maxRequests: 20,
@@ -79,7 +79,7 @@ async function submissionRateLimit(req, res, next) {
       const retryAfterSecs = Math.ceil(burstResult.retryAfterMs / 1000);
       res.set("Retry-After", String(retryAfterSecs));
       return res.status(429).json({
-        message: `Rate limit exceeded. You've hit ${RATE_LIMITS.burst.maxRequests} submissions in 10 seconds. Try again in ${formatRetryAfter(burstResult.retryAfterMs)}.`,
+        message: `Rate limit exceeded. You've hit ${RATE_LIMITS.burst.maxRequests} submissions in 20 seconds. Try again in ${formatRetryAfter(burstResult.retryAfterMs)}.`,
         retryAfterMs: burstResult.retryAfterMs,
         tier: "burst",
         current: burstResult.current,
@@ -117,8 +117,8 @@ async function submissionRateLimit(req, res, next) {
       },
     };
 
-    res.set("X-RateLimit-Limit-10s", String(RATE_LIMITS.burst.maxRequests));
-    res.set("X-RateLimit-Remaining-10s", String(req.rateLimit.burst.remaining));
+    res.set("X-RateLimit-Limit-20s", String(RATE_LIMITS.burst.maxRequests));
+    res.set("X-RateLimit-Remaining-20s", String(req.rateLimit.burst.remaining));
     res.set(
       "X-RateLimit-Limit-10m",
       String(RATE_LIMITS.longWindow.maxRequests),

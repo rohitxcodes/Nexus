@@ -92,6 +92,7 @@ export function useProblemPage() {
   const [code, setCode] = useState("");
   const [status, setStatus] = useState("Idle");
   const [output, setOutput] = useState("");
+  const [rateLimitRetryAfterMs, setRateLimitRetryAfterMs] = useState(0);
   const [showSuccess, setShowSuccess] = useState(false);
   const [xpData, setXpData] = useState({ xpEarned: 0, totalXp: 0 });
   const [judgeStats, setJudgeStats] = useState({ runtime: null, memory: null });
@@ -194,6 +195,23 @@ export function useProblemPage() {
 
     loadLevelPopupData();
   }, [problem, levelNumber, location.state?.selectedShopItems]);
+
+  useEffect(() => {
+    if (!rateLimitRetryAfterMs || rateLimitRetryAfterMs <= 0) return undefined;
+
+    const intervalId = window.setInterval(() => {
+      setRateLimitRetryAfterMs((current) => {
+        if (current <= 1000) {
+          window.clearInterval(intervalId);
+          return 0;
+        }
+
+        return current - 1000;
+      });
+    }, 1000);
+
+    return () => window.clearInterval(intervalId);
+  }, [rateLimitRetryAfterMs]);
 
   const handleStartLevelFromPopup = () => {
     setShowLevelEntryPopup(false);
@@ -372,14 +390,16 @@ export function useProblemPage() {
 
         setXpData({ xpEarned, totalXp });
         setShowSuccess(true);
+        setRateLimitRetryAfterMs(0);
       }
     } catch (err) {
       console.error("Submission error:", err);
       if (err?.status === 429) {
+        setRateLimitRetryAfterMs(Number(err.retryAfterMs) || 0);
         const waitText = formatRetryAfter(err.retryAfterMs);
         const limitLabel =
           err.tier === "burst"
-            ? "5 submissions per 10 seconds"
+            ? "5 submissions per 20 seconds"
             : err.tier === "longWindow"
               ? "20 submissions per 10 minutes"
               : "submission limit";
@@ -391,6 +411,7 @@ export function useProblemPage() {
         return;
       }
 
+      setRateLimitRetryAfterMs(0);
       setStatus("ERROR");
       setOutput("Submission failed: " + (err.message || "Unknown error"));
     }
@@ -416,7 +437,10 @@ export function useProblemPage() {
     code,
     setCode,
     status,
-    output,
+    output:
+      status === "TOO MANY SUBMISSIONS" && rateLimitRetryAfterMs > 0
+        ? `Too many submissions. You hit the 5 submissions per 20 seconds / 20 submissions per 10 minutes limits. Please wait ${formatRetryAfter(rateLimitRetryAfterMs)} before trying again.`
+        : output,
     showSuccess,
     setShowSuccess,
     xpData,
