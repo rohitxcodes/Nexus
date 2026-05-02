@@ -11,7 +11,21 @@ export const createSubmission = async ({ levelNumber, language, code }) => {
   });
 
   if (!res.ok) {
-    throw new Error("Submission failed");
+    let errorBody = null;
+
+    try {
+      errorBody = await res.json();
+    } catch {
+      errorBody = null;
+    }
+
+    const error = new Error(errorBody?.message || "Submission failed");
+    error.status = res.status;
+    error.retryAfterMs = errorBody?.retryAfterMs;
+    error.tier = errorBody?.tier;
+    error.limit = errorBody?.limit;
+    error.current = errorBody?.current;
+    throw error;
   }
 
   return res.json();

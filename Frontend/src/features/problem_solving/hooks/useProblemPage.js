@@ -62,6 +62,26 @@ function resolveSelectedItems(selectedItems, counts) {
     .filter(Boolean);
 }
 
+function formatRetryAfter(ms) {
+  if (!Number.isFinite(ms) || ms <= 0) {
+    return "a moment";
+  }
+
+  const totalSeconds = Math.ceil(ms / 1000);
+  const minutes = Math.floor(totalSeconds / 60);
+  const seconds = totalSeconds % 60;
+
+  if (minutes > 0 && seconds > 0) {
+    return `${minutes} minute${minutes !== 1 ? "s" : ""} ${seconds} second${seconds !== 1 ? "s" : ""}`;
+  }
+
+  if (minutes > 0) {
+    return `${minutes} minute${minutes !== 1 ? "s" : ""}`;
+  }
+
+  return `${totalSeconds} second${totalSeconds !== 1 ? "s" : ""}`;
+}
+
 export function useProblemPage() {
   const { levelNumber } = useParams();
   const location = useLocation();
@@ -355,6 +375,22 @@ export function useProblemPage() {
       }
     } catch (err) {
       console.error("Submission error:", err);
+      if (err?.status === 429) {
+        const waitText = formatRetryAfter(err.retryAfterMs);
+        const limitLabel =
+          err.tier === "burst"
+            ? "5 submissions per 10 seconds"
+            : err.tier === "longWindow"
+              ? "20 submissions per 10 minutes"
+              : "submission limit";
+
+        setStatus("TOO MANY SUBMISSIONS");
+        setOutput(
+          `Too many submissions. You hit the ${limitLabel}. Please wait ${waitText} before trying again.`,
+        );
+        return;
+      }
+
       setStatus("ERROR");
       setOutput("Submission failed: " + (err.message || "Unknown error"));
     }
