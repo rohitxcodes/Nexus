@@ -93,36 +93,39 @@ describe("submissionRateLimit middleware", () => {
 
     expect(next).toHaveBeenCalledTimes(1);
     expect(res.statusCode).toBe(200);
-    expect(res.headers["X-RateLimit-Limit-Minute"]).toBe("5");
-    expect(res.headers["X-RateLimit-Remaining-Minute"]).toBe("4");
-    expect(res.headers["X-RateLimit-Limit-Hour"]).toBe("20");
-    expect(res.headers["X-RateLimit-Remaining-Hour"]).toBe("19");
+    expect(res.headers["X-RateLimit-Limit-10s"]).toBe("5");
+    expect(res.headers["X-RateLimit-Remaining-10s"]).toBe("4");
+    expect(res.headers["X-RateLimit-Limit-10m"]).toBe("20");
+    expect(res.headers["X-RateLimit-Remaining-10m"]).toBe("19");
   });
 
-  it("blocks rapid repeated submission with cooldown tier", async () => {
+  it("blocks a 6th submission inside 10 seconds", async () => {
     const next = jest.fn();
-
-    await submissionRateLimit(makeReq(), makeRes(), next);
-
-    now += 1_000;
-
-    const res2 = makeRes();
-    await submissionRateLimit(makeReq(), res2, next);
-
-    expect(next).toHaveBeenCalledTimes(1);
-    expect(res2.statusCode).toBe(429);
-    expect(res2.body.tier).toBe("cooldown");
-    expect(Number(res2.headers["Retry-After"])).toBeGreaterThan(0);
-  });
-
-  it("blocks 6th submission in the same minute with perMinute tier", async () => {
-    const next = jest.fn();
-    now = 1_080_000;
 
     for (let i = 0; i < 5; i += 1) {
       const res = makeRes();
       await submissionRateLimit(makeReq(), res, next);
-      now += 5_000;
+      now += 1_000;
+      expect(res.statusCode).toBe(200);
+    }
+
+    const res2 = makeRes();
+    await submissionRateLimit(makeReq(), res2, next);
+
+    expect(next).toHaveBeenCalledTimes(5);
+    expect(res2.statusCode).toBe(429);
+    expect(res2.body.tier).toBe("burst");
+    expect(Number(res2.headers["Retry-After"])).toBeGreaterThan(0);
+  });
+
+  it("blocks the 21st submission in 10 minutes", async () => {
+    const next = jest.fn();
+    now = 600_001;
+
+    for (let i = 0; i < 20; i += 1) {
+      const res = makeRes();
+      await submissionRateLimit(makeReq(), res, next);
+      now += 11_000;
       expect(res.statusCode).toBe(200);
     }
 
@@ -130,7 +133,7 @@ describe("submissionRateLimit middleware", () => {
     await submissionRateLimit(makeReq(), blockedRes, next);
 
     expect(blockedRes.statusCode).toBe(429);
-    expect(blockedRes.body.tier).toBe("perMinute");
+    expect(blockedRes.body.tier).toBe("longWindow");
     expect(Number(blockedRes.headers["Retry-After"])).toBeGreaterThan(0);
   });
 });
