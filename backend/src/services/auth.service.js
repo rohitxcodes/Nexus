@@ -33,7 +33,16 @@ async function authenticateUser(email, password) {
   console.log("Authentication successful for user:", user.username);
   return user;
 }
+const jwt = require("jsonwebtoken");
+
 function generateAuthToken(user) {
-  return jwt.sign({ userId: user._id }, process.env.JWT_SIGNATURE);
+  return jwt.sign(
+    { userId: user._id },
+    process.env.JWT_SIGNATURE,
+    {
+      expiresIn: process.env.JWT_EXPIRES_IN || "7d",
+    }
+  );
 }
+
 module.exports = { createUser, authenticateUser, generateAuthToken };
